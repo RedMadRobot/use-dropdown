@@ -1,0 +1,26 @@
+image: node:latest
+
+variables:
+  REGISTRY: registry.redmadrobot.com:5005
+  NPM_REGISTRY: https://nexus.redmadrobot.com/repository/npm-group/
+
+stages:
+  - test
+  - publish
+  - notify
+
+cache:
+  paths:
+    - .npm/
+
+before_script:
+  - npm config set registry https://nexus.redmadrobot.com/repository/npm-group/
+  - npm config set _auth "${CI_NPM_AUTH}"
+  - npm ci --cache .npm --prefer-offline
+
+test_lint:
+  stage: test
+  script:
+    - npm t
+
+
