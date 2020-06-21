@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {CSSProperties} from 'react';
 import {useCallback, useReducer, useRef, useEffect} from 'react';
 import {reducer} from './reducer';
 import {StateChangeType} from './stateChangeType'
@@ -15,7 +15,7 @@ type UseDropdownOptions<TItem> = {
 
 type GetMenuPropsResult = {
   onMouseLeave: () => void;
-  style: React.CSSProperties;
+  style: CSSProperties;
   ref: React.RefObject<any>;
 };
 
@@ -32,7 +32,7 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
   } = props;
   const inputRef = useRef<HTMLInputElement | null>(null);
   const inputWrapperRef = useRef<HTMLDivElement | null>(null);
-  const menuRef = useRef<HTMLElement | null>(null);
+  const menuRef = useRef<any | null>(null);
   const [state, dispatch] =
     useReducer<React.Reducer<DropdownState, ReducerAction>>(mergeReducers(reducer, props.reducer), initialState);
   const {
@@ -124,11 +124,12 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
         break;
       case 'Enter':
         if (highlightedIndex !== -1) {
+          onSelect(items[highlightedIndex]);
           dispatch({type: StateChangeType.ITEM_CLICK, item: items[highlightedIndex]});
         }
         break;
     }
-  }, [])
+  }, [highlightedIndex, isOpen, onSelect])
 
   useEffect(() => {
     if (isOpen) {
@@ -140,7 +141,7 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
       window.removeEventListener('scroll', handleScroll, true);
       window.removeEventListener('keydown', handleKeyDown, true);
     }
-  }, [isOpen]);
+  }, [isOpen, handleKeyDown, handleScroll]);
 
   const getInputWrapperProps = () => {
     return {
