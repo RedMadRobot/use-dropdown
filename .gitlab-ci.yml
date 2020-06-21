@@ -21,7 +21,8 @@ before_script:
 test_lint:
   stage: test
   script:
-    - npm t
+    - npm t -- --coverage
+  coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
   tags:
     - frontend-docker
 
