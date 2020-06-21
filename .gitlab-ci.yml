@@ -22,5 +22,8 @@ test_lint:
   stage: test
   script:
     - npm t
+  tags:
+    - frontend-docker
+
 
 
