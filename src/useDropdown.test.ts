@@ -69,7 +69,7 @@ describe('Keyboard events', () => {
     expect(result.current.highlightedIndex).toBe(2);
   })
 
-  test('it should select item with Enter key', () => {
+  test('should select item with Enter key', () => {
     const onSelect = jest.fn();
     const {result} = renderHook(() => useDropdown({onSelect, items}));
     act(() => {
