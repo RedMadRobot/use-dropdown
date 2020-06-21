@@ -7,6 +7,15 @@
     "build": "tsc -p tsconfig.json -d",
     "test": "jest"
   },
+  "files": [
+    "**/*.d.ts",
+    "**/*.js",
+    "**/*.js.map",
+    "!**/*.test.*",
+    "!coverage/**/*",
+    "!jest.config.js",
+    "!notify.js"
+  ],
   "author": "",
   "license": "ISC",
   "devDependencies": {
