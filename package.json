@@ -1,0 +1,21 @@
+{
+  "name": "@rmr/use-dropdown",
+  "version": "0.1.0",
+  "description": "",
+  "main": "./lib/index.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json -d",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^3.9.5"
+  },
+  "publishConfig": {
+    "registry": "https://nexus.redmadrobot.com/repository/npm-private/"
+  },
+  "dependencies": {
+    "react": "^16.13.1"
+  }
+}
