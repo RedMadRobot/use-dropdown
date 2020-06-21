@@ -26,5 +26,10 @@ test_lint:
   tags:
     - frontend-docker
 
-
+notify:
+  stage: notify
+  script:
+    - npx notify
+  tags:
+    - frontend-docker
 
