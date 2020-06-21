@@ -9,13 +9,23 @@ const items = [
   {label: '3', value: 3},
 ]
 
-test('should open menu on command', () => {
-  const {result} = renderHook(() => useDropdown({onSelect, items}));
-  act(() => {
-    result.current.setOpen(true);
+describe('Commands', () => {
+  test('should open menu', () => {
+    const {result} = renderHook(() => useDropdown({onSelect, items}));
+    act(() => {
+      result.current.setOpen(true);
+    })
+    expect(result.current.isOpen).toBe(true);
+  });
+
+  test('should set higlighted index', () => {
+    const {result} = renderHook(() => useDropdown({onSelect, items}));
+    act(() => {
+      result.current.setHighlightedIndex(2);
+    })
+    expect(result.current.highlightedIndex).toBe(2);
   })
-  expect(result.current.isOpen).toBe(true);
-});
+})
 
 describe('Keyboard events', () => {
   test('should navigate list with arrow down key', () => {
@@ -37,6 +47,26 @@ describe('Keyboard events', () => {
       document.dispatchEvent(event);
     })
     expect(result.current.highlightedIndex).toBe(0);
+  })
+
+  test('should navigate list with arrow up key', () => {
+    const {result} = renderHook(() => useDropdown({onSelect, items}));
+    act(() => {
+      result.current.setOpen(true);
+    })
+    expect(result.current.highlightedIndex).toBe(-1);
+
+    const event = new KeyboardEvent('keydown', {key: 'ArrowUp'});
+    act(() => {
+      document.dispatchEvent(event);
+    })
+    expect(result.current.highlightedIndex).toBe(2);
+
+    act(() => {
+      result.current.setHighlightedIndex(0);
+      document.dispatchEvent(event);
+    })
+    expect(result.current.highlightedIndex).toBe(2);
   })
 })
 

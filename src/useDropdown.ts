@@ -112,7 +112,6 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
   }, []);
 
   const handleKeyDown = useCallback((ev: KeyboardEvent) => {
-    console.log(ev.key)
     switch (ev.key) {
       case 'ArrowDown':
         dispatch({type: StateChangeType.KEY_PRESS_DOWN, items});

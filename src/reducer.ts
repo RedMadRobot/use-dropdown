@@ -40,7 +40,8 @@ export const reducer = (state: DropdownState, action) => {
       break;
     case StateChangeType.KEY_PRESS_UP:
       changes = {
-        highlightedIndex: state.highlightedIndex === 0
+
+        highlightedIndex: state.highlightedIndex === 0 || state.highlightedIndex === -1
           ? action.items.length - 1
           : state.highlightedIndex - 1
       }
