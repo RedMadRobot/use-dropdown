@@ -1,6 +1,6 @@
 {
   "name": "@rmr/use-dropdown",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "",
   "main": "./lib/index.js",
   "scripts": {
@@ -19,14 +19,18 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@rmr/notify": "^1.0.5",
     "@testing-library/react-hooks": "^3.3.0",
     "@types/jest": "^26.0.0",
     "@types/react": "^16.8.23",
     "jest": "^26.0.1",
-    "react": "^16.13.1",
+    "react": "^16.8.6",
     "react-test-renderer": "^16.13.1",
     "ts-jest": "^26.1.0",
     "typescript": "^3.9.5"
+  },
+  "peerDependencies": {
+    "react": "^16.8.6"
   },
   "publishConfig": {
     "registry": "https://nexus.redmadrobot.com/repository/npm-private/"
