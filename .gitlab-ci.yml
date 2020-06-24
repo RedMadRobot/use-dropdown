@@ -26,10 +26,22 @@ test_lint:
   tags:
     - frontend-docker
 
+publish:
+  stage: publish
+  script:
+    - npm publish
+  tags:
+    - frontend-docker
+  only:
+    - tags
+
 notify:
   stage: notify
   script:
     - npx notify
   tags:
     - frontend-docker
-
+  only:
+    - tags
+  dependencies:
+    - publish

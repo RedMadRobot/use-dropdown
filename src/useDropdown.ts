@@ -95,8 +95,8 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
     const wrapperRect = wrapper.getBoundingClientRect();
 
     return {
-      top: `${wrapperRect.y + wrapperRect.height}px`,
-      left: `${wrapperRect.x}px`,
+      top: `${wrapperRect.top + wrapperRect.height}px`,
+      left: `${wrapperRect.left}px`,
       width: `${wrapperRect.width}px`,
     };
   }, [inputWrapperRef]);
