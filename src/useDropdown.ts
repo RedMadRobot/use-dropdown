@@ -41,6 +41,8 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
     inputValue,
   } = state;
 
+  console.log(state);
+
   const onChange = useCallback(ev => {
     const inputValue = ev.target.value;
     dispatch({type: StateChangeType.INPUT_CHANGE, inputValue});

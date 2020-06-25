@@ -1,3 +1,4 @@
+import React from 'react';
 import {renderHook, act} from '@testing-library/react-hooks';
 import {useDropdown} from './useDropdown';
 
@@ -85,3 +86,27 @@ describe('Keyboard events', () => {
   })
 })
 
+describe('Mouse events', () => {
+  test.only('should change highlightedIndex on mouse enter', () => {
+    const {result, rerender} = renderHook(() => useDropdown({onSelect, items}));
+    const {getItemProps, highlightedIndex} = result.current;
+    const itemProps = getItemProps(items[2], 2);
+    const li = document.createElement('li');
+    li.addEventListener('mouseenter', itemProps.onMouseEnter);
+    li.dataset.index = itemProps['data-index'].toString();
+
+    act(() => {
+      const event = new MouseEvent('mouseenter', {
+        view: window,
+        bubbles: true,
+        cancelable: true,
+      });
+
+      li.dispatchEvent(event);
+    })
+
+    rerender();
+
+    expect(highlightedIndex).toBe(2);
+  })
+})
