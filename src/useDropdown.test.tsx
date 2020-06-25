@@ -87,9 +87,9 @@ describe('Keyboard events', () => {
 })
 
 describe('Mouse events', () => {
-  test.only('should change highlightedIndex on mouse enter', () => {
+  test('should change highlightedIndex on mouse enter', () => {
     const {result, rerender} = renderHook(() => useDropdown({onSelect, items}));
-    const {getItemProps, highlightedIndex} = result.current;
+    const {getItemProps} = result.current;
     const itemProps = getItemProps(items[2], 2);
     const li = document.createElement('li');
     li.addEventListener('mouseenter', itemProps.onMouseEnter);
@@ -103,9 +103,10 @@ describe('Mouse events', () => {
       });
 
       li.dispatchEvent(event);
+      itemProps.onMouseEnter(event);
     })
 
-    rerender();
+    const {highlightedIndex} = result.current;
 
     expect(highlightedIndex).toBe(2);
   })
