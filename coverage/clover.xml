@@ -1,39 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1592737414844" clover="3.2.0">
-  <project timestamp="1592737414844" name="All files">
-    <metrics statements="108" coveredstatements="71" conditionals="27" coveredconditionals="15" methods="24" coveredmethods="11" elements="159" coveredelements="97" complexity="0" loc="108" ncloc="108" packages="5" files="12" classes="12"/>
-    <package name="lib">
-      <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-      <file name="index.d.ts" path="/Users/eden_lane/Projects/work/use-dropdown/lib/index.d.ts">
-        <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-      </file>
-      <file name="reducer.d.ts" path="/Users/eden_lane/Projects/work/use-dropdown/lib/reducer.d.ts">
-        <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-      </file>
-      <file name="stateChangeType.d.ts" path="/Users/eden_lane/Projects/work/use-dropdown/lib/stateChangeType.d.ts">
-        <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-      </file>
-      <file name="useDropdown.d.ts" path="/Users/eden_lane/Projects/work/use-dropdown/lib/useDropdown.d.ts">
-        <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-      </file>
-    </package>
-    <package name="lib.types">
-      <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-      <file name="DropdownState.d.ts" path="/Users/eden_lane/Projects/work/use-dropdown/lib/types/DropdownState.d.ts">
-        <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-      </file>
-      <file name="ReducerAction.d.ts" path="/Users/eden_lane/Projects/work/use-dropdown/lib/types/ReducerAction.d.ts">
-        <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-      </file>
-    </package>
-    <package name="lib.utils">
-      <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-      <file name="mergeReducers.d.ts" path="/Users/eden_lane/Projects/work/use-dropdown/lib/utils/mergeReducers.d.ts">
-        <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-      </file>
-    </package>
+<coverage generated="1593191150916" clover="3.2.0">
+  <project timestamp="1593191150916" name="All files">
+    <metrics statements="109" coveredstatements="79" conditionals="27" coveredconditionals="18" methods="24" coveredmethods="13" elements="160" coveredelements="110" complexity="0" loc="109" ncloc="109" packages="2" files="5" classes="5"/>
     <package name="src">
-      <metrics statements="104" coveredstatements="67" conditionals="27" coveredconditionals="15" methods="21" coveredmethods="8"/>
+      <metrics statements="105" coveredstatements="75" conditionals="27" coveredconditionals="18" methods="21" coveredmethods="10"/>
       <file name="index.ts" path="/Users/eden_lane/Projects/work/use-dropdown/src/index.ts">
         <metrics statements="3" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
@@ -41,27 +11,27 @@
         <line num="4" count="0" type="stmt"/>
       </file>
       <file name="reducer.ts" path="/Users/eden_lane/Projects/work/use-dropdown/src/reducer.ts">
-        <metrics statements="20" coveredstatements="14" conditionals="13" coveredconditionals="9" methods="1" coveredmethods="1"/>
+        <metrics statements="20" coveredstatements="16" conditionals="13" coveredconditionals="10" methods="1" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="4" count="1" type="stmt"/>
-        <line num="5" count="15" type="stmt"/>
-        <line num="6" count="15" type="stmt"/>
-        <line num="8" count="15" type="stmt"/>
-        <line num="10" count="0" type="stmt"/>
-        <line num="13" count="0" type="stmt"/>
+        <line num="5" count="23" type="stmt"/>
+        <line num="6" count="23" type="stmt"/>
+        <line num="8" count="23" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
         <line num="15" count="0" type="stmt"/>
         <line num="18" count="0" type="stmt"/>
-        <line num="20" count="3" type="stmt"/>
-        <line num="23" count="3" type="stmt"/>
-        <line num="25" count="6" type="stmt"/>
-        <line num="28" count="6" type="stmt"/>
+        <line num="20" count="8" type="stmt"/>
+        <line num="23" count="8" type="stmt"/>
+        <line num="25" count="8" type="stmt"/>
+        <line num="28" count="8" type="stmt"/>
         <line num="30" count="0" type="stmt"/>
         <line num="33" count="0" type="stmt"/>
         <line num="35" count="4" type="stmt"/>
         <line num="40" count="4" type="stmt"/>
         <line num="42" count="2" type="stmt"/>
-        <line num="48" count="2" type="stmt"/>
-        <line num="51" count="15" type="stmt"/>
+        <line num="47" count="2" type="stmt"/>
+        <line num="50" count="23" type="stmt"/>
       </file>
       <file name="stateChangeType.ts" path="/Users/eden_lane/Projects/work/use-dropdown/src/stateChangeType.ts">
         <metrics statements="10" coveredstatements="10" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
@@ -77,88 +47,89 @@
         <line num="10" count="1" type="stmt"/>
       </file>
       <file name="useDropdown.ts" path="/Users/eden_lane/Projects/work/use-dropdown/src/useDropdown.ts">
-        <metrics statements="71" coveredstatements="43" conditionals="12" coveredconditionals="4" methods="19" coveredmethods="6"/>
+        <metrics statements="72" coveredstatements="49" conditionals="12" coveredconditionals="6" methods="19" coveredmethods="8"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
         <line num="4" count="1" type="stmt"/>
         <line num="7" count="1" type="stmt"/>
         <line num="22" count="1" type="stmt"/>
         <line num="28" count="1" type="stmt"/>
-        <line num="32" count="24" type="stmt"/>
-        <line num="33" count="12" type="stmt"/>
-        <line num="34" count="12" type="stmt"/>
-        <line num="35" count="12" type="stmt"/>
-        <line num="36" count="12" type="stmt"/>
-        <line num="37" count="12" type="stmt"/>
-        <line num="42" count="36" type="stmt"/>
-        <line num="44" count="12" type="stmt"/>
+        <line num="32" count="38" type="stmt"/>
+        <line num="33" count="19" type="stmt"/>
+        <line num="34" count="19" type="stmt"/>
+        <line num="35" count="19" type="stmt"/>
+        <line num="36" count="19" type="stmt"/>
+        <line num="37" count="19" type="stmt"/>
+        <line num="42" count="57" type="stmt"/>
+        <line num="44" count="19" type="stmt"/>
         <line num="45" count="0" type="stmt"/>
         <line num="46" count="0" type="stmt"/>
-        <line num="49" count="12" type="stmt"/>
-        <line num="50" count="0" type="stmt"/>
-        <line num="53" count="12" type="stmt"/>
+        <line num="49" count="19" type="stmt"/>
+        <line num="50" count="2" type="stmt"/>
+        <line num="53" count="19" type="stmt"/>
         <line num="54" count="0" type="stmt"/>
-        <line num="57" count="12" type="stmt"/>
+        <line num="57" count="19" type="stmt"/>
         <line num="58" count="0" type="stmt"/>
-        <line num="61" count="12" type="stmt"/>
+        <line num="61" count="19" type="stmt"/>
         <line num="62" count="0" type="stmt"/>
         <line num="63" count="0" type="stmt"/>
         <line num="64" count="0" type="stmt"/>
         <line num="65" count="0" type="stmt"/>
-        <line num="71" count="12" type="stmt"/>
-        <line num="72" count="2" type="stmt"/>
-        <line num="78" count="12" type="stmt"/>
-        <line num="79" count="3" type="stmt"/>
-        <line num="85" count="12" type="stmt"/>
+        <line num="71" count="19" type="stmt"/>
+        <line num="72" count="5" type="stmt"/>
+        <line num="78" count="19" type="stmt"/>
+        <line num="79" count="4" type="stmt"/>
+        <line num="85" count="19" type="stmt"/>
         <line num="86" count="0" type="stmt"/>
-        <line num="92" count="12" type="stmt"/>
+        <line num="92" count="19" type="stmt"/>
         <line num="93" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="94" count="0" type="stmt"/>
         <line num="95" count="0" type="stmt"/>
         <line num="97" count="0" type="stmt"/>
-        <line num="104" count="12" type="stmt"/>
+        <line num="104" count="19" type="stmt"/>
         <line num="105" count="0" type="stmt"/>
         <line num="106" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="107" count="0" type="stmt"/>
         <line num="108" count="0" type="stmt"/>
         <line num="109" count="0" type="stmt"/>
-        <line num="114" count="12" type="stmt"/>
-        <line num="115" count="6" type="stmt"/>
+        <line num="114" count="19" type="stmt"/>
+        <line num="115" count="7" type="stmt"/>
         <line num="117" count="4" type="stmt"/>
         <line num="118" count="4" type="stmt"/>
         <line num="120" count="2" type="stmt"/>
         <line num="121" count="2" type="stmt"/>
         <line num="123" count="0" type="stmt"/>
         <line num="124" count="0" type="stmt"/>
-        <line num="126" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="127" count="0" type="stmt"/>
-        <line num="129" count="0" type="stmt"/>
-        <line num="133" count="12" type="stmt"/>
-        <line num="134" count="7" type="cond" truecount="2" falsecount="0"/>
-        <line num="135" count="3" type="stmt"/>
-        <line num="136" count="3" type="stmt"/>
-        <line num="139" count="7" type="stmt"/>
-        <line num="140" count="7" type="stmt"/>
-        <line num="141" count="7" type="stmt"/>
-        <line num="145" count="12" type="stmt"/>
-        <line num="146" count="0" type="stmt"/>
-        <line num="151" count="12" type="stmt"/>
-        <line num="152" count="0" type="stmt"/>
-        <line num="160" count="12" type="stmt"/>
-        <line num="161" count="0" type="stmt"/>
-        <line num="168" count="12" type="stmt"/>
-        <line num="169" count="0" type="stmt"/>
-        <line num="179" count="12" type="stmt"/>
+        <line num="126" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="127" count="1" type="stmt"/>
+        <line num="128" count="1" type="stmt"/>
+        <line num="130" count="1" type="stmt"/>
+        <line num="134" count="19" type="stmt"/>
+        <line num="135" count="17" type="cond" truecount="2" falsecount="0"/>
+        <line num="136" count="6" type="stmt"/>
+        <line num="137" count="6" type="stmt"/>
+        <line num="140" count="17" type="stmt"/>
+        <line num="141" count="17" type="stmt"/>
+        <line num="142" count="17" type="stmt"/>
+        <line num="146" count="19" type="stmt"/>
+        <line num="147" count="0" type="stmt"/>
+        <line num="152" count="19" type="stmt"/>
+        <line num="153" count="0" type="stmt"/>
+        <line num="161" count="19" type="stmt"/>
+        <line num="162" count="2" type="stmt"/>
+        <line num="169" count="19" type="stmt"/>
+        <line num="170" count="0" type="stmt"/>
+        <line num="180" count="19" type="stmt"/>
       </file>
     </package>
     <package name="src.utils">
       <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
       <file name="mergeReducers.ts" path="/Users/eden_lane/Projects/work/use-dropdown/src/utils/mergeReducers.ts">
         <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
-        <line num="1" count="48" type="stmt"/>
-        <line num="2" count="12" type="stmt"/>
-        <line num="3" count="15" type="stmt"/>
-        <line num="5" count="15" type="stmt"/>
+        <line num="1" count="76" type="stmt"/>
+        <line num="2" count="19" type="stmt"/>
+        <line num="3" count="23" type="stmt"/>
+        <line num="5" count="25" type="stmt"/>
       </file>
     </package>
   </project>

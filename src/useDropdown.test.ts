@@ -1,6 +1,7 @@
 import React from 'react';
 import {renderHook, act} from '@testing-library/react-hooks';
 import {useDropdown} from './useDropdown';
+import {StateChangeType} from './stateChangeType';
 
 function onSelect() {}
 
@@ -88,7 +89,7 @@ describe('Keyboard events', () => {
 
 describe('Mouse events', () => {
   test('should change highlightedIndex on mouse enter', () => {
-    const {result, rerender} = renderHook(() => useDropdown({onSelect, items}));
+    const {result} = renderHook(() => useDropdown({onSelect, items}));
     const {getItemProps} = result.current;
     const itemProps = getItemProps(items[2], 2);
     const li = document.createElement('li');
@@ -103,11 +104,32 @@ describe('Mouse events', () => {
       });
 
       li.dispatchEvent(event);
-      itemProps.onMouseEnter(event);
     })
 
     const {highlightedIndex} = result.current;
-
     expect(highlightedIndex).toBe(2);
+  })
+})
+
+describe('reducer', () => {
+  test('should call reducer with new index on mouse enter', () => {
+    const reducer = jest.fn((state, action) => state);
+    const {result} = renderHook(() => useDropdown({onSelect, items, reducer}));
+    const {getItemProps} = result.current;
+    const itemProps = getItemProps(items[2], 2);
+    const li = document.createElement('li');
+    li.addEventListener('mouseenter', itemProps.onMouseEnter);
+    li.dataset.index = itemProps['data-index'].toString();
+
+    act(() => {
+      const event = new MouseEvent('mouseenter');
+      li.dispatchEvent(event);
+    });
+
+    expect(reducer).toHaveBeenCalledWith(expect.anything(), {
+      highlightedIndex: 2,
+      type:  StateChangeType.SET_HIGHLIGHTED_INDEX,
+    });
+
   })
 })
