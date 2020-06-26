@@ -29,6 +29,8 @@ test_lint:
 publish:
   stage: publish
   script:
+    - npm i
+    - npm build
     - npm publish
   tags:
     - frontend-docker
