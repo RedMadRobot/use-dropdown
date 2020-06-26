@@ -30,7 +30,7 @@ publish:
   stage: publish
   script:
     - npm i
-    - npm build
+    - npm run build
     - npm publish
   tags:
     - frontend-docker
