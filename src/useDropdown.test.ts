@@ -124,11 +124,19 @@ describe('Mouse events', () => {
 })
 
 describe('reducer', () => {
+  let reducer;
+  let result;
+  let itemProps;
+  let menuProps;
+
+  beforeEach(() => {
+    reducer = jest.fn((state) => state);
+    result = renderHook(() => useDropdown({onSelect, items, reducer})).result;
+    itemProps = result.current.getItemProps(items[2], 2);
+    menuProps = result.current.getMenuProps();
+  });
+
   test('should call reducer with new index on mouse enter', () => {
-    const reducer = jest.fn((state, action) => state);
-    const {result} = renderHook(() => useDropdown({onSelect, items, reducer}));
-    const {getItemProps} = result.current;
-    const itemProps = getItemProps(items[2], 2);
     const li = document.createElement('li');
     li.addEventListener('mouseenter', itemProps.onMouseEnter);
     li.dataset.index = itemProps['data-index'].toString();
@@ -145,10 +153,6 @@ describe('reducer', () => {
   })
 
   test('should call reducer with new index on mouse leave', () => {
-    const reducer = jest.fn((state, action) => state);
-    const {result} = renderHook(() => useDropdown({onSelect, items, reducer}));
-    const {getMenuProps} = result.current;
-    const menuProps = getMenuProps();
     const ul = document.createElement('ul');
     ul.addEventListener('mouseleave', menuProps.onMouseLeave);
 
@@ -161,5 +165,52 @@ describe('reducer', () => {
       highlightedIndex: -1,
       type:  StateChangeType.SET_HIGHLIGHTED_INDEX,
     });
-  })
+  });
+
+  test('should call reducer on key down', () => {
+    act(() => {
+      result.current.setOpen(true);
+    })
+
+    act(() => {
+      const event = new KeyboardEvent('keydown', {key: 'ArrowDown'});
+      document.dispatchEvent(event);
+    });
+
+    expect(reducer).toHaveBeenLastCalledWith(expect.anything(), {
+      type: StateChangeType.KEY_PRESS_DOWN,
+      items
+    });
+  });
+
+  test('should call reducer on key up', () => {
+    act(() => {
+      result.current.setOpen(true);
+    });
+
+    act(() => {
+      const event = new KeyboardEvent('keydown', {key: 'ArrowUp'});
+      document.dispatchEvent(event);
+    });
+
+    expect(reducer).toHaveBeenLastCalledWith(expect.anything(), {
+      type: StateChangeType.KEY_PRESS_UP,
+      items
+    });
+  });
+
+  test('should call reducer on Esc', () => {
+    act(() => {
+      result.current.setOpen(true);
+    });
+
+    act(() => {
+      const event = new KeyboardEvent('keydown', {key: 'Escape'});
+      document.dispatchEvent(event);
+    });
+
+    expect(reducer).toHaveBeenLastCalledWith(expect.anything(), {
+      type: StateChangeType.KEY_PRES_ESC
+    });
+  });
 })
