@@ -1,5 +1,7 @@
 import React from 'react';
 import {renderHook, act} from '@testing-library/react-hooks';
+import {render, screen} from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import {useDropdown} from './useDropdown';
 import {StateChangeType} from './stateChangeType';
 
@@ -12,8 +14,13 @@ const items = [
 ]
 
 describe('Commands', () => {
+  let result;
+
+  beforeEach(() => {
+    result = renderHook(() => useDropdown({onSelect, items})).result;
+  })
+
   test('should open menu', () => {
-    const {result} = renderHook(() => useDropdown({onSelect, items}));
     act(() => {
       result.current.setOpen(true);
     })
@@ -26,6 +33,13 @@ describe('Commands', () => {
       result.current.setHighlightedIndex(2);
     })
     expect(result.current.highlightedIndex).toBe(2);
+  })
+
+  test('should change input text', () => {
+    act(() => {
+      result.current.setInputValue('abc');
+    })
+    expect(result.current.inputValue).toBe('abc');
   })
 })
 
@@ -124,19 +138,23 @@ describe('Mouse events', () => {
 })
 
 describe('reducer', () => {
+  const index = 2;
+  const item = items[index];
   let reducer;
   let result;
   let itemProps;
   let menuProps;
+  let inputProps;
 
   beforeEach(() => {
     reducer = jest.fn((state) => state);
     result = renderHook(() => useDropdown({onSelect, items, reducer})).result;
-    itemProps = result.current.getItemProps(items[2], 2);
+    itemProps = result.current.getItemProps(item, index);
     menuProps = result.current.getMenuProps();
+    inputProps = result.current.getInputProps();
   });
 
-  test('should call reducer with new index on mouse enter', () => {
+  test('should dispatch with new index on mouse enter', () => {
     const li = document.createElement('li');
     li.addEventListener('mouseenter', itemProps.onMouseEnter);
     li.dataset.index = itemProps['data-index'].toString();
@@ -147,12 +165,12 @@ describe('reducer', () => {
     });
 
     expect(reducer).toHaveBeenCalledWith(expect.anything(), {
-      highlightedIndex: 2,
+      highlightedIndex: index,
       type:  StateChangeType.SET_HIGHLIGHTED_INDEX,
     });
   })
 
-  test('should call reducer with new index on mouse leave', () => {
+  test('should dispatch with new index on mouse leave', () => {
     const ul = document.createElement('ul');
     ul.addEventListener('mouseleave', menuProps.onMouseLeave);
 
@@ -167,7 +185,7 @@ describe('reducer', () => {
     });
   });
 
-  test('should call reducer on key down', () => {
+  test('should dispatch on key down', () => {
     act(() => {
       result.current.setOpen(true);
     })
@@ -183,7 +201,7 @@ describe('reducer', () => {
     });
   });
 
-  test('should call reducer on key up', () => {
+  test('should dispatch on key up', () => {
     act(() => {
       result.current.setOpen(true);
     });
@@ -199,7 +217,7 @@ describe('reducer', () => {
     });
   });
 
-  test('should call reducer on Esc', () => {
+  test('should dispatch on Esc', () => {
     act(() => {
       result.current.setOpen(true);
     });
@@ -213,4 +231,36 @@ describe('reducer', () => {
       type: StateChangeType.KEY_PRES_ESC
     });
   });
-})
+
+  test('should dispatch on input change', () => {
+    render(
+      <input {...inputProps} role="input"/>
+    );
+
+    act(() => {
+      const input = screen.getByRole('input');
+      userEvent.type(input, 'A');
+    });
+
+    expect(reducer).toHaveBeenLastCalledWith(expect.anything(), {
+      type: StateChangeType.INPUT_CHANGE,
+      inputValue: 'A',
+    });
+  });
+
+  test('should dispatch on item click', () => {
+    render(
+      <li {...itemProps} role="item">something</li>
+    );
+
+    act(() => {
+      const li = screen.getByRole('item');
+      userEvent.click(li);
+    });
+
+    expect(reducer).toHaveBeenLastCalledWith(expect.anything(), {
+      type: StateChangeType.ITEM_CLICK,
+      item,
+    });
+  });
+});

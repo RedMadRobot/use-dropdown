@@ -20,11 +20,15 @@
   "license": "ISC",
   "devDependencies": {
     "@rmr/notify": "^1.0.5",
+    "@testing-library/dom": "^7.18.1",
+    "@testing-library/react": "^10.4.3",
     "@testing-library/react-hooks": "^3.3.0",
+    "@testing-library/user-event": "^12.0.11",
     "@types/jest": "^26.0.0",
     "@types/react": "^16.8.23",
     "jest": "^26.0.1",
     "react": "^16.8.6",
+    "react-dom": "^16.13.1",
     "react-test-renderer": "^16.13.1",
     "ts-jest": "^26.1.0",
     "typescript": "^3.9.5"
