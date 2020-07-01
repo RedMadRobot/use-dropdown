@@ -26,7 +26,7 @@ export const Dropdown = ({items}) => {
 
   return (
     <div>
-      <div {...getInputWrapperProps()}>
+      <div {...getInputWrapperProps()} style={{width: "200px"}}>
         <input type="text" {...getInputProps()} />
       </div>
       {
