@@ -1,4 +1,4 @@
-import React, {CSSProperties} from 'react';
+import React, {CSSProperties, useState} from 'react';
 import {useCallback, useReducer, useRef, useEffect} from 'react';
 import {reducer} from './reducer';
 import {StateChangeType} from './stateChangeType'
@@ -89,25 +89,42 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
     });
   };
 
-  const getPosition = useCallback(() => {
+  const getPosition = useCallback((isVisible: boolean = true): CSSProperties => {
     if (!inputWrapperRef.current) return {};
-    const wrapper = inputWrapperRef.current;
-    const wrapperRect = wrapper.getBoundingClientRect();
+    const wrapperRect = inputWrapperRef.current.getBoundingClientRect();
+    let isUp = false;
+
+    if (menuRef.current) {
+      const menuRect = menuRef.current.getBoundingClientRect();
+      isUp = wrapperRect.top + wrapperRect.height + menuRect.height > document.defaultView.innerHeight;
+    }
 
     return {
       top: `${wrapperRect.top + wrapperRect.height}px`,
       left: `${wrapperRect.left}px`,
       width: `${wrapperRect.width}px`,
+      transform: isUp
+        ? `translateY(-100%) translateY(-${wrapperRect.height * 2}px)`
+        : 'translateY(0)',
+      visibility: isVisible ? 'visible' : 'hidden',
+      willChange: 'top, left, width',
     };
-  }, [inputWrapperRef]);
+  }, [inputWrapperRef, menuRef.current]);
+
+  const setPosition = useCallback((isVisible: boolean = true) => {
+    if (menuRef.current) {
+      const {top, left, transform} = getPosition();
+
+      menuRef.current.style.top = top;
+      menuRef.current.style.left = left;
+      menuRef.current.style.transform = transform;
+      menuRef.current.style.visibility = isVisible ? 'visible' : 'hidden';
+    }
+  }, [])
 
   const handleScroll = useCallback(() => {
     window.requestAnimationFrame(() => {
-      if (menuRef.current) {
-        const {top, left} = getPosition();
-        menuRef.current.style.top = top;
-        menuRef.current.style.left = left;
-      }
+      setPosition();
     });
   }, []);
 
@@ -166,16 +183,22 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
     };
   };
 
-  const getMenuProps = (): GetMenuPropsResult => {
+  const getMenuProps = useCallback((): GetMenuPropsResult => {
     return {
       onMouseLeave: handleMenuMouseLeave,
       style: {
         position: 'fixed',
-        ...getPosition(),
+        ...getPosition(false),
       },
       ref: menuRef,
     };
-  };
+  }, [menuRef.current]);
+
+  useEffect(() => {
+    if (isOpen) {
+      setPosition();
+    }
+  }, [isOpen])
 
   return {
     getInputWrapperProps,
