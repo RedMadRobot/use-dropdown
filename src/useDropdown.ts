@@ -1,16 +1,16 @@
-import React, {CSSProperties, useState} from 'react';
+import React, {CSSProperties} from 'react';
 import {useCallback, useReducer, useRef, useEffect} from 'react';
 import {reducer} from './reducer';
-import {StateChangeType} from './stateChangeType'
+import {StateChangeType} from './stateChangeType';
 import {DropdownState} from './types/DropdownState';
 import {ReducerAction} from './types/ReducerAction';
-import {mergeReducers} from './utils/mergeReducers'
+import {mergeReducers} from './utils/mergeReducers';
 
 type UseDropdownOptions<TItem> = {
   onSelect: (item: TItem) => void;
   items: Array<TItem>;
   reducer?(state: DropdownState, action: ReducerAction): void;
-  root?: any;
+  root?: HTMLElement;
 };
 
 type GetMenuPropsResult = {
@@ -22,7 +22,7 @@ type GetMenuPropsResult = {
 const initialState = {
   isOpen: false,
   highlightedIndex: -1,
-  inputValue: '',
+  inputValue: ''
 };
 
 export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
@@ -59,7 +59,7 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
   };
 
   const handleItemClick = ev => {
-    const index = ev.target.dataset.index;
+    const index = ev.currentTarget.dataset.index;
     const item = items[index];
     onSelect(item);
     dispatch({
@@ -120,7 +120,7 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
       menuRef.current.style.transform = transform;
       menuRef.current.style.visibility = isVisible ? 'visible' : 'hidden';
     }
-  }, [])
+  }, []);
 
   const handleScroll = useCallback(() => {
     window.requestAnimationFrame(() => {
@@ -146,7 +146,7 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
         }
         break;
     }
-  }, [highlightedIndex, isOpen, onSelect])
+  }, [highlightedIndex, isOpen, onSelect]);
 
   useEffect(() => {
     if (isOpen) {
@@ -157,7 +157,7 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
     return () => {
       window.removeEventListener('scroll', handleScroll, true);
       window.removeEventListener('keydown', handleKeyDown, true);
-    }
+    };
   }, [isOpen, handleKeyDown, handleScroll]);
 
   const getInputWrapperProps = () => {
@@ -198,7 +198,7 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
     if (isOpen) {
       setPosition();
     }
-  }, [isOpen])
+  }, [isOpen]);
 
   return {
     getInputWrapperProps,
