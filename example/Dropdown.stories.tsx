@@ -13,7 +13,9 @@ export default {
 }
 
 export const basic = () => (
-  <div style={{padding: "1500px 0"}}>
-    <Dropdown items={items} />
+  <div style={{height: "100vh",display: "flex", flexDirection: "column"}}>
+    <div style={{height: '100%',padding: "600px 0", flexGrow: 1, border: "1px solid #ccc"}}>
+      <Dropdown items={items} />
+    </div>
   </div>
 )

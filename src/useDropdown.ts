@@ -29,6 +29,7 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
   const {
     items,
     onSelect,
+    root = document.body,
   } = props;
   const inputRef = useRef<HTMLInputElement | null>(null);
   const inputWrapperRef = useRef<HTMLDivElement | null>(null);
@@ -89,43 +90,31 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
     });
   };
 
-  const getPosition = useCallback((isVisible: boolean = true): CSSProperties => {
+  const getPosition = useCallback((): CSSProperties => {
     if (!inputWrapperRef.current) return {};
     const wrapperRect = inputWrapperRef.current.getBoundingClientRect();
-    let isUp = false;
-
-    if (menuRef.current) {
-      const menuRect = menuRef.current.getBoundingClientRect();
-      isUp = wrapperRect.top + wrapperRect.height + menuRect.height > document.defaultView.innerHeight;
-    }
 
     return {
-      top: `${wrapperRect.top + wrapperRect.height}px`,
+      top: `${wrapperRect.top + wrapperRect.height + root.scrollTop}px`,
       left: `${wrapperRect.left}px`,
       width: `${wrapperRect.width}px`,
-      transform: isUp
-        ? `translateY(-100%) translateY(-${wrapperRect.height * 2}px)`
-        : 'translateY(0)',
-      visibility: isVisible ? 'visible' : 'hidden',
       willChange: 'top, left, width',
     };
   }, [inputWrapperRef, menuRef.current]);
 
-  const setPosition = useCallback((isVisible: boolean = true) => {
+  const setPosition = useCallback(() => {
     if (menuRef.current) {
       const {top, left, transform} = getPosition();
 
       menuRef.current.style.top = top;
       menuRef.current.style.left = left;
       menuRef.current.style.transform = transform;
-      menuRef.current.style.visibility = isVisible ? 'visible' : 'hidden';
+      menuRef.current.style.visibility = 'visible';
     }
   }, []);
 
   const handleScroll = useCallback(() => {
-    window.requestAnimationFrame(() => {
-      setPosition();
-    });
+
   }, []);
 
   const handleKeyDown = useCallback((ev: KeyboardEvent) => {
@@ -150,17 +139,17 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
 
   useEffect(() => {
     if (isOpen) {
-      window.addEventListener('scroll', handleScroll, true);
+      // window.addEventListener('scroll', handleScroll, true);
       window.addEventListener('keydown', handleKeyDown, true);
     }
 
     return () => {
-      window.removeEventListener('scroll', handleScroll, true);
+      // window.removeEventListener('scroll', handleScroll, true);
       window.removeEventListener('keydown', handleKeyDown, true);
     };
   }, [isOpen, handleKeyDown, handleScroll]);
 
-  const getInputWrapperProps = () => {
+  const getWrapperProps = () => {
     return {
       ref: inputWrapperRef,
     };
@@ -187,8 +176,8 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
     return {
       onMouseLeave: handleMenuMouseLeave,
       style: {
-        position: 'fixed',
-        ...getPosition(false),
+        position: 'absolute',
+        ...getPosition(),
       },
       ref: menuRef,
     };
@@ -201,7 +190,7 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
   }, [isOpen]);
 
   return {
-    getInputWrapperProps,
+    getWrapperProps,
     getInputProps,
     getItemProps,
     getMenuProps,
