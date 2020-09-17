@@ -1,3 +1,6 @@
+## v0.3.1 - 17 Sep 2020
+- Changed of the menu width to auto
+
 ## v0.2.1 - 3 Jul 2020
 ### Bugfixes
 - Fixed: onSelect was called with no item in some cases

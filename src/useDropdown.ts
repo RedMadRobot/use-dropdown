@@ -97,7 +97,7 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
     return {
       top: `${wrapperRect.top + wrapperRect.height + root.scrollTop}px`,
       left: `${wrapperRect.left}px`,
-      width: `${wrapperRect.width}px`,
+      width: 'auto',
       willChange: 'top, left, width',
     };
   }, [inputWrapperRef, menuRef.current]);
