@@ -4,10 +4,10 @@
   "description": "",
   "main": "./lib/index.js",
   "scripts": {
-    "build": "tsc -p tsconfig.json -d",
+    "build": "tsc -p build.tsconfig.json -d",
     "lint": "eslint \"./src/**/*.{ts,tsx}\"",
     "test": "jest src/",
-    "storybook": "start-storybook -p 6006",
+    "start": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
   "files": [

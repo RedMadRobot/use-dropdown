@@ -9,7 +9,7 @@
     "sourceMap": true,
     "moduleResolution": "node",
     "outDir": "lib/",
-    "rootDir": "."
+    "rootDir": "./src"
   },
   "include": ["./src/**/*"],
   "exclude": ["node_modules"]

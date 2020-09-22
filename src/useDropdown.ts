@@ -1,10 +1,13 @@
-import React, {CSSProperties} from 'react';
+import React, {CSSProperties, useMemo} from 'react';
 import {useCallback, useReducer, useRef, useEffect} from 'react';
 import {reducer} from './reducer';
 import {StateChangeType} from './stateChangeType';
 import {DropdownState} from './types/DropdownState';
 import {ReducerAction} from './types/ReducerAction';
 import {mergeReducers} from './utils/mergeReducers';
+import {useEvent} from './useEvent';
+import {findScrollContainers} from './utils/findScrollContainers';
+import {isElementInvisible} from './utils/isElementInvisible';
 
 type UseDropdownOptions<TItem> = {
   onSelect: (item: TItem) => void;
@@ -32,7 +35,7 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
     root = document.body,
   } = props;
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const inputWrapperRef = useRef<HTMLDivElement | null>(null);
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
   const menuRef = useRef<any | null>(null);
   const [state, dispatch] =
     useReducer<React.Reducer<DropdownState, ReducerAction>>(mergeReducers(reducer, props.reducer), initialState);
@@ -41,6 +44,7 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
     highlightedIndex,
     inputValue,
   } = state;
+  const parents = useMemo(() => findScrollContainers(wrapperRef.current), [wrapperRef.current]);
 
   const onChange = useCallback(ev => {
     const inputValue = ev.target.value;
@@ -91,18 +95,24 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
   };
 
   const getPosition = useCallback((): CSSProperties => {
-    if (!inputWrapperRef.current) return {};
-    const wrapperRect = inputWrapperRef.current.getBoundingClientRect();
+    if (!wrapperRef.current) return {};
+    const wrapperRect = wrapperRef.current.getBoundingClientRect();
 
     return {
-      top: `${wrapperRect.top + wrapperRect.height + root.scrollTop}px`,
+      top: `${wrapperRect.top + 5 + root.scrollTop}px`,
       left: `${wrapperRect.left}px`,
       width: 'auto',
       willChange: 'top, left, width',
     };
-  }, [inputWrapperRef, menuRef.current]);
+  }, [wrapperRef, menuRef.current]);
 
   const setPosition = useCallback(() => {
+    const isInvisible = isElementInvisible(wrapperRef.current, parents);
+
+    if (isInvisible) {
+      setOpen(false);
+    }
+
     if (menuRef.current) {
       const {top, left, transform} = getPosition();
 
@@ -111,11 +121,7 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
       menuRef.current.style.transform = transform;
       menuRef.current.style.visibility = 'visible';
     }
-  }, []);
-
-  const handleScroll = useCallback(() => {
-
-  }, []);
+  }, [parents]);
 
   const handleKeyDown = useCallback((ev: KeyboardEvent) => {
     switch (ev.key) {
@@ -137,21 +143,22 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
     }
   }, [highlightedIndex, isOpen, onSelect]);
 
+
+  useEvent([window, ...parents], 'scroll', setPosition, false, isOpen);
+
   useEffect(() => {
     if (isOpen) {
-      // window.addEventListener('scroll', handleScroll, true);
       window.addEventListener('keydown', handleKeyDown, true);
     }
 
     return () => {
-      // window.removeEventListener('scroll', handleScroll, true);
       window.removeEventListener('keydown', handleKeyDown, true);
     };
-  }, [isOpen, handleKeyDown, handleScroll]);
+  }, [isOpen, handleKeyDown]);
 
   const getWrapperProps = () => {
     return {
-      ref: inputWrapperRef,
+      ref: wrapperRef,
     };
   };
 
@@ -159,6 +166,7 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
     return {
       onChange,
       onFocus: handleInputFocus,
+      onClick: handleInputFocus,
       value: inputValue,
       ref: inputRef,
     };
@@ -176,7 +184,7 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
     return {
       onMouseLeave: handleMenuMouseLeave,
       style: {
-        position: 'absolute',
+        position: 'fixed',
         ...getPosition(),
       },
       ref: menuRef,

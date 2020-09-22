@@ -16,7 +16,7 @@ export const Dropdown = ({items}) => {
   const {
     isOpen,
     getInputProps,
-    getInputWrapperProps,
+    getWrapperProps,
     getItemProps,
     getMenuProps,
   } = useDropdown({
@@ -26,7 +26,7 @@ export const Dropdown = ({items}) => {
 
   return (
     <div>
-      <div {...getInputWrapperProps()} style={{width: "200px"}}>
+      <div {...getWrapperProps()} style={{width: "200px"}}>
         <input type="text" {...getInputProps()} />
       </div>
       {

@@ -1,3 +1,6 @@
+## v0.4.0 - 22 Sep 2020
+- Added menu autoscroll
+
 ## v0.3.1 - 17 Sep 2020
 - Changed of the menu width to auto
 
