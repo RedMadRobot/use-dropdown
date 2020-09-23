@@ -1,4 +1,4 @@
-## v0.4.1 - 23 Sep 2020
+## v0.4.2 - 23 Sep 2020
 - Added menu autoscroll
 
 ## v0.3.1 - 17 Sep 2020

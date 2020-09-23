@@ -18,12 +18,16 @@ export const useEvent = <T extends EventListener>(
     }
 
     elements.forEach(el => {
-      el.addEventListener(event, callback, capture);
+      if (el) {
+        el.addEventListener(event, callback, capture);
+      }
     });
 
     return () => {
       elements.forEach(el => {
-        el.removeEventListener(event, callback, capture);
+        if (el) {
+          el.removeEventListener(event, callback, capture);
+        }
       })
     }
 
