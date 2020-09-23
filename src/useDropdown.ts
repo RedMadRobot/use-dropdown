@@ -107,10 +107,12 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
   }, [wrapperRef, menuRef.current]);
 
   const setPosition = useCallback(() => {
-    const isInvisible = isElementInvisible(wrapperRef.current, parents);
+    if (wrapperRef.current) {
+      const isInvisible = isElementInvisible(wrapperRef.current, parents);
 
-    if (isInvisible) {
-      setOpen(false);
+      if (isInvisible) {
+        setOpen(false);
+      }
     }
 
     if (menuRef.current) {
