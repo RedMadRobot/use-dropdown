@@ -149,12 +149,14 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
   useEvent([window, ...parents], 'scroll', setPosition, false, isOpen);
 
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen && window) {
       window.addEventListener('keydown', handleKeyDown, true);
     }
 
     return () => {
-      window.removeEventListener('keydown', handleKeyDown, true);
+      if (window) {
+        window.removeEventListener('keydown', handleKeyDown, true);
+      }
     };
   }, [isOpen, handleKeyDown]);
 
