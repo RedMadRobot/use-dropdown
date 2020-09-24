@@ -1,12 +1,7 @@
 import {useEffect} from 'react';
 
-interface EventListenable {
-  addEventListener: any;
-  removeEventListener: any;
-}
-
 export const useEvent = <T extends EventListener>(
-  elements: Array<EventListenable>,
+  elements: Array<HTMLElement>,
   event: string,
   callback: T,
   capture = false,
@@ -17,19 +12,23 @@ export const useEvent = <T extends EventListener>(
       return;
     }
 
+    if (typeof window !== 'undefined') {
+      window.addEventListener(event, callback, capture);
+    }
+
     elements.forEach(el => {
-      if (el) {
-        el.addEventListener(event, callback, capture);
-      }
+      el.addEventListener(event, callback, capture);
     });
 
     return () => {
+      if (typeof window !== 'undefined') {
+        window.removeEventListener(event, callback, capture)
+      }
+
       elements.forEach(el => {
-        if (el) {
-          el.removeEventListener(event, callback, capture);
-        }
+        el.removeEventListener(event, callback, capture);
       })
     }
 
-  }, [elements, event, callback, capture])
+  }, [elements, event, callback, capture, enabled])
 }

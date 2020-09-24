@@ -13,7 +13,6 @@ type UseDropdownOptions<TItem> = {
   onSelect: (item: TItem) => void;
   items: Array<TItem>;
   reducer?(state: DropdownState, action: ReducerAction): void;
-  root?: HTMLElement;
 };
 
 type GetMenuPropsResult = {
@@ -32,7 +31,6 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
   const {
     items,
     onSelect,
-    root = document.body,
   } = props;
   const inputRef = useRef<HTMLInputElement | null>(null);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
@@ -99,7 +97,7 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
     const wrapperRect = wrapperRef.current.getBoundingClientRect();
 
     return {
-      top: `${wrapperRect.top + 5 + root.scrollTop}px`,
+      top: `${wrapperRect.top + wrapperRect.height + 5}px`,
       left: `${wrapperRect.left}px`,
       width: 'auto',
       willChange: 'top, left, width',
@@ -146,17 +144,17 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
   }, [highlightedIndex, isOpen, onSelect]);
 
 
-  useEvent([window, ...parents], 'scroll', setPosition, false, isOpen);
+  useEvent(parents, 'scroll', setPosition, true, isOpen);
 
   useEffect(() => {
-    if (isOpen && window) {
+    if (isOpen) {
       window.addEventListener('keydown', handleKeyDown, true);
+      window.addEventListener('resize', setPosition);
     }
 
     return () => {
-      if (window) {
-        window.removeEventListener('keydown', handleKeyDown, true);
-      }
+      window.removeEventListener('keydown', handleKeyDown, true);
+      window.removeEventListener('resize', setPosition);
     };
   }, [isOpen, handleKeyDown]);
 
