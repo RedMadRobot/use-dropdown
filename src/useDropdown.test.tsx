@@ -5,7 +5,8 @@ import userEvent from '@testing-library/user-event';
 import {useDropdown} from './useDropdown';
 import {StateChangeType} from './stateChangeType';
 
-function onSelect() {}
+function onSelect() {
+}
 
 const items = [
   {label: '1', value: 1},
@@ -166,7 +167,7 @@ describe('reducer', () => {
 
     expect(reducer).toHaveBeenCalledWith(expect.anything(), {
       highlightedIndex: index,
-      type:  StateChangeType.SET_HIGHLIGHTED_INDEX,
+      type: StateChangeType.SET_HIGHLIGHTED_INDEX,
     });
   })
 
@@ -181,7 +182,7 @@ describe('reducer', () => {
 
     expect(reducer).toHaveBeenCalledWith(expect.anything(), {
       highlightedIndex: -1,
-      type:  StateChangeType.SET_HIGHLIGHTED_INDEX,
+      type: StateChangeType.SET_HIGHLIGHTED_INDEX,
     });
   });
 
@@ -228,7 +229,7 @@ describe('reducer', () => {
     });
 
     expect(reducer).toHaveBeenLastCalledWith(expect.anything(), {
-      type: StateChangeType.KEY_PRES_ESC
+      type: StateChangeType.KEY_PRESS_ESC
     });
   });
 

@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useCallback, useEffect} from 'react';
 import ReactDOM from 'react-dom';
-import {useDropdown} from '../src';
+import {useDropdown, DropdownState, ReducerAction} from '../src';
 import './Dropdown.css';
 
 type Option = {
@@ -10,24 +10,55 @@ type Option = {
 
 type DropdownProps = {
   items: Array<Option>;
+  value?: Option;
+  onChange?(value: Option): void;
 }
-
-export const Dropdown = ({items}) => {
+export const Dropdown = ({
+  items,
+  value,
+  onChange = () => {},
+}: DropdownProps) => {
   const {
     isOpen,
     getInputProps,
     getWrapperProps,
     getItemProps,
     getMenuProps,
+    highlightedIndex,
   } = useDropdown({
-    onSelect: () => console.log('select'),
+    onSelect: (value: Option) => {
+      onChange(value);
+    },
     items,
   })
 
+  const inputProps = getInputProps();
+
+  const handleInputKeyDown = useCallback((ev: KeyboardEvent) => {
+    switch (ev.key) {
+      case 'Backspace':
+        onChange(null);
+    }
+  }, []);
+
+  useEffect(() => {
+    inputProps.ref.current.addEventListener('keydown', handleInputKeyDown);
+
+    return () => {
+      inputProps.ref.current.removeEventListener('keydown', handleInputKeyDown);
+    }
+  }, [inputProps]);
+
   return (
     <div>
-      <div {...getWrapperProps()} style={{width: "200px"}}>
-        <input type="text" {...getInputProps()} />
+      <div {...getWrapperProps()} className="wrapper">
+        <span>{value?.label}</span>
+        <input
+          type="text"
+          className="input"
+          value={value?.label}
+          {...inputProps}
+        />
       </div>
       {
         isOpen && (
@@ -35,7 +66,11 @@ export const Dropdown = ({items}) => {
             <ul className="menu" {...getMenuProps()}>
               {
                 items.map((item, index) => (
-                  <li {...getItemProps(item, index)}>{item.label}</li>
+                  <li
+                    className={`item ${highlightedIndex === index ? 'active' : ''}`}
+                      {...getItemProps(item, index)}>
+                    {item.label}
+                  </li>
                 ))
               }
             </ul>,

@@ -1,5 +1,4 @@
-import React, {CSSProperties, useMemo} from 'react';
-import {useCallback, useReducer, useRef, useEffect} from 'react';
+import React, {CSSProperties, useCallback, useEffect, useMemo, useReducer, useRef} from 'react';
 import {reducer} from './reducer';
 import {StateChangeType} from './stateChangeType';
 import {DropdownState} from './types/DropdownState';
@@ -8,6 +7,8 @@ import {mergeReducers} from './utils/mergeReducers';
 import {useEvent} from './useEvent';
 import {findScrollContainers} from './utils/findScrollContainers';
 import {isElementInvisible} from './utils/isElementInvisible';
+
+type MenuWidth = Pick<CSSProperties, 'width'> | 'wrapper';
 
 type UseDropdownOptions<TItem> = {
   onSelect: (item: TItem) => void;
@@ -21,11 +22,23 @@ type GetMenuPropsResult = {
   ref: React.RefObject<any>;
 };
 
+type GetMenuPropsOptions = {
+  width?: MenuWidth;
+};
+
+type GetPositionOptions = {
+  width?: MenuWidth;
+}
+
 const initialState = {
   isOpen: false,
   highlightedIndex: -1,
   inputValue: ''
 };
+
+const defaultMenuOptions: GetPositionOptions = {
+  width: 'wrapper',
+}
 
 export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
   const {
@@ -92,14 +105,23 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
     });
   };
 
-  const getPosition = useCallback((): CSSProperties => {
+  const getPosition = useCallback((options?: GetPositionOptions): CSSProperties => {
     if (!wrapperRef.current) return {};
     const wrapperRect = wrapperRef.current.getBoundingClientRect();
+
+    console.log(wrapperRect);
+
+    options = {
+      ...defaultMenuOptions,
+      ...options,
+    }
+
+    const width = options.width === 'wrapper' ? `${wrapperRect.width}px` : options.width;
 
     return {
       top: `${wrapperRect.top + wrapperRect.height + 5}px`,
       left: `${wrapperRect.left}px`,
-      width: 'auto',
+      width: `${width}`,
       willChange: 'top, left, width',
     };
   }, [wrapperRef, menuRef.current]);
@@ -132,7 +154,10 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
         dispatch({type: StateChangeType.KEY_PRESS_UP, items});
         break;
       case 'Escape':
-        dispatch({type: StateChangeType.KEY_PRES_ESC});
+        dispatch({type: StateChangeType.KEY_PRESS_ESC});
+        break;
+      case 'Backspace':
+        dispatch({type: StateChangeType.KEY_PRESS_BACKSPACE});
         break;
       case 'Enter':
         if (highlightedIndex !== -1) {
@@ -182,12 +207,12 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
     };
   };
 
-  const getMenuProps = useCallback((): GetMenuPropsResult => {
+  const getMenuProps = useCallback((options?: GetMenuPropsOptions): GetMenuPropsResult => {
     return {
       onMouseLeave: handleMenuMouseLeave,
       style: {
         position: 'fixed',
-        ...getPosition(),
+        ...getPosition(options),
       },
       ref: menuRef,
     };

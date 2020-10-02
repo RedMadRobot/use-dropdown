@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback, useState} from 'react';
 import {Dropdown} from './Dropdown';
 
 const items = [
@@ -12,20 +12,26 @@ export default {
   title: 'Dropdown example'
 }
 
-export const basic = () => (
-  <div style={{height: "100vh",display: "flex", flexDirection: "column"}}>
-    <div style={{height: '100%',padding: "600px 0", flexGrow: 1, border: "1px solid #ccc"}}>
-      <Dropdown items={items} />
+export const basic = () => {
+  const [value, setValue] = useState();
+  const handleSelect = useCallback((value) => {
+    setValue(value);
+  }, []);
+  return (
+    <div style={{height: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+      <div style={{height: '100%', padding: '900px 0', display: 'flex', justifyContent: 'center', flexGrow: 1}}>
+        <Dropdown items={items} value={value} onChange={handleSelect} />
+      </div>
     </div>
-  </div>
-)
+  )
+}
 
 export const popup = () => (
-  <div style={{height: "100vh",display: "flex", flexDirection: "column"}}>
-    <div style={{maxHeight: '200px', padding: "600px 50px", flexGrow: 1, border: "1px solid #000"}}>
+  <div style={{height: '100vh', display: 'flex', flexDirection: 'column'}}>
+    <div style={{maxHeight: '200px', padding: '600px 50px', flexGrow: 1, border: '1px solid #000'}}>
       <div style={{height: '300px', padding: '10px', border: '1px solid red', overflow: 'auto'}}>
         <div style={{height: '250px', border: '1px solid green', overflow: 'auto', padding: '100px'}}>
-          <Dropdown items={items} />
+          <Dropdown items={items}/>
           <div style={{height: '600px'}}></div>
         </div>
         <div style={{height: '500px'}}></div>

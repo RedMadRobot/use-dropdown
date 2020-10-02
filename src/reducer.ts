@@ -26,7 +26,7 @@ export const reducer = (state: DropdownState, action) => {
         isOpen: action.isOpen,
       };
       break;
-    case StateChangeType.KEY_PRES_ESC:
+    case StateChangeType.KEY_PRESS_ESC:
       changes = {
         isOpen: false,
       };
