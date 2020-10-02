@@ -12,11 +12,15 @@ type DropdownProps = {
   items: Array<Option>;
   value?: Option;
   onChange?(value: Option): void;
+  root?: HTMLElement;
+  autoScroll?: boolean;
 }
 export const Dropdown = ({
   items,
   value,
   onChange = () => {},
+  autoScroll,
+  root,
 }: DropdownProps) => {
   const {
     isOpen,
@@ -30,6 +34,8 @@ export const Dropdown = ({
       onChange(value);
     },
     items,
+    autoScroll,
+    root
   })
 
   const inputProps = getInputProps();

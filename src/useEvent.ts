@@ -1,4 +1,5 @@
 import {useEffect} from 'react';
+import {useThrottle} from './useThrottle';
 
 export const useEvent = <T extends EventListener>(
   elements: Array<HTMLElement>,
@@ -7,26 +8,29 @@ export const useEvent = <T extends EventListener>(
   capture = false,
   enabled = true,
 ) => {
-  return useEffect(() => {
+  const throttled = useThrottle(callback, 10  );
+
+  useEffect(() => {
     if (!enabled) {
       return;
     }
 
+
     if (typeof window !== 'undefined') {
-      window.addEventListener(event, callback, capture);
+      window.addEventListener(event, throttled, capture);
     }
 
     elements.forEach(el => {
-      el.addEventListener(event, callback, capture);
+      el.addEventListener(event, throttled, capture);
     });
 
     return () => {
       if (typeof window !== 'undefined') {
-        window.removeEventListener(event, callback, capture)
+        window.removeEventListener(event, throttled, capture)
       }
 
       elements.forEach(el => {
-        el.removeEventListener(event, callback, capture);
+        el.removeEventListener(event, throttled, capture);
       })
     }
 

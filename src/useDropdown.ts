@@ -14,6 +14,8 @@ type UseDropdownOptions<TItem> = {
   onSelect: (item: TItem) => void;
   items: Array<TItem>;
   reducer?(state: DropdownState, action: ReducerAction): void;
+  autoScroll?: boolean;
+  root?: HTMLElement;
 };
 
 type GetMenuPropsResult = {
@@ -28,6 +30,7 @@ type GetMenuPropsOptions = {
 
 type GetPositionOptions = {
   width?: MenuWidth;
+  autoScroll?: boolean;
 }
 
 const initialState = {
@@ -37,13 +40,15 @@ const initialState = {
 };
 
 const defaultMenuOptions: GetPositionOptions = {
-  width: 'wrapper',
+  width: 'wrapper'
 }
 
 export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
   const {
     items,
     onSelect,
+    autoScroll = false,
+    root,
   } = props;
   const inputRef = useRef<HTMLInputElement | null>(null);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
@@ -117,9 +122,11 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
     }
 
     const width = options.width === 'wrapper' ? `${wrapperRect.width}px` : options.width;
+    const top = wrapperRect.top + wrapperRect.height + 5
+      + (autoScroll ? 0 : root && root.scrollTop);
 
     return {
-      top: `${wrapperRect.top + wrapperRect.height + 5}px`,
+      top: `${top}px`,
       left: `${wrapperRect.left}px`,
       width: `${width}`,
       willChange: 'top, left, width',
@@ -168,8 +175,7 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
     }
   }, [highlightedIndex, isOpen, onSelect]);
 
-
-  useEvent(parents, 'scroll', setPosition, true, isOpen);
+  useEvent(parents, 'scroll', setPosition, true, autoScroll && isOpen);
 
   useEffect(() => {
     if (isOpen) {
@@ -211,7 +217,7 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
     return {
       onMouseLeave: handleMenuMouseLeave,
       style: {
-        position: 'fixed',
+        position: autoScroll ? 'fixed' : 'absolute',
         ...getPosition(options),
       },
       ref: menuRef,

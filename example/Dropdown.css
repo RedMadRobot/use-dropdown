@@ -5,6 +5,7 @@
   border-radius: 3px;
   padding: 2px 8px;
   list-style: none;
+  background-color: #fff;
 }
 
 .wrapper {
@@ -12,6 +13,7 @@
   width: 200px;
   padding: 2px 5px;
   display: flex;
+  background-color: #fff;
 }
 
 .input {
