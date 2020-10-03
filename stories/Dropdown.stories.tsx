@@ -26,7 +26,7 @@ export const basic = () => {
   )
 }
 
-export const modalStyles = {
+const modalStyles = {
   height: '300px',
   padding: '10px',
   border: '1px solid #ccc',
