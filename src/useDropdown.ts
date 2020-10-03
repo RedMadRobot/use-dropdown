@@ -114,8 +114,6 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
     if (!wrapperRef.current) return {};
     const wrapperRect = wrapperRef.current.getBoundingClientRect();
 
-    console.log(wrapperRect);
-
     options = {
       ...defaultMenuOptions,
       ...options,
@@ -135,6 +133,7 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
 
   const setPosition = useCallback(() => {
     if (wrapperRef.current) {
+      const parents = findScrollContainers(wrapperRef.current);
       const isInvisible = isElementInvisible(wrapperRef.current, parents);
 
       if (isInvisible) {
