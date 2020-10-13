@@ -1,8 +1,16 @@
 {
   "name": "@rmr/use-dropdown",
-  "version": "0.5.1",
+  "version": "0.5.3",
   "description": "",
   "main": "./lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RedMadRobot/use-dropdown"
+  },
+  "bugs": {
+    "url": "https://github.com/RedMadRobot/use-dropdown/issues"
+  },
+  "homepage": "https://codesandbox.io/s/usedropdown-example1-88kql",
   "scripts": {
     "build": "tsc -p build.tsconfig.json -d",
     "lint": "eslint \"./src/**/*.{ts,tsx}\"",
@@ -23,7 +31,6 @@
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.10.3",
-    "@rmr/notify": "^1.0.5",
     "@storybook/addon-actions": "^5.3.19",
     "@storybook/addon-links": "^5.3.19",
     "@storybook/addons": "^5.3.19",
@@ -36,7 +43,6 @@
     "@types/react": "^16.8.23",
     "babel-loader": "^8.1.0",
     "eslint": "^7.3.1",
-    "eslint-plugin-rmr-code-style": "^1.0.12",
     "jest": "^26.0.1",
     "react": "^16.8.6",
     "react-docgen-typescript-loader": "^3.7.2",
@@ -48,9 +54,6 @@
   },
   "peerDependencies": {
     "react": "^16.8.6"
-  },
-  "publishConfig": {
-    "registry": "https://nexus.redmadrobot.com/repository/npm-private/"
   },
   "dependencies": {}
 }

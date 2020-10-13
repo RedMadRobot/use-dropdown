@@ -1,3 +1,6 @@
+## v0.5.3 - 13 Oct 2020
+- Added links to repo, issues and example
+
 ## v0.5.1 - 3 Oct 2020
 - Added autoScroll option
 - Added throttling to repositioning menu

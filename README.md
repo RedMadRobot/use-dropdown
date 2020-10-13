@@ -56,11 +56,10 @@ cursor or with arrow keys. Use it to apply styles.
 * **inputValue** - `string`
 Current value of input.
 
-* **getInputWrapperProps** - `(): WrapperProps` - _required_
+* **getWrapperProps** - `(): WrapperProps` - _required_
 Apply these props to block that represents your dropdown element.
 This block will be used to calculate the width of dropdown along
 with it's position on the screen.
-> Note: this method will be renamed in future versions
 
 * **getInputProps** - `(): InputProps` - _optional_
 You can use it on your input. This method will help `useDropdown`
