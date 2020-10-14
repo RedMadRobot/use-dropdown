@@ -1,3 +1,6 @@
+## v0.6.0 - 14 Oct 2020
+- Fixed wrong positioning of menu on iOS
+
 ## v0.5.3 - 13 Oct 2020
 - Added links to repo, issues and example
 

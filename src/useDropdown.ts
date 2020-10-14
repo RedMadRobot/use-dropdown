@@ -61,6 +61,7 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
     inputValue,
   } = state;
   const parents = useMemo(() => findScrollContainers(wrapperRef.current), [wrapperRef.current]);
+  const isIOS = typeof navigator !== 'undefined' && /(iPad|iPhone|iPod)/g.test(navigator.userAgent);
 
   const onChange = useCallback(ev => {
     const inputValue = ev.target.value;
@@ -121,7 +122,7 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
 
     const width = options.width === 'wrapper' ? `${wrapperRect.width}px` : options.width;
     const top = wrapperRect.top + wrapperRect.height + 5
-      + (autoScroll ? 0 : root && root.scrollTop);
+      + (autoScroll ? 0 : root && root.scrollTop) + (isIOS ? window.scrollY : 0);
 
     return {
       top: `${top}px`,
@@ -216,7 +217,7 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
     return {
       onMouseLeave: handleMenuMouseLeave,
       style: {
-        position: autoScroll ? 'fixed' : 'absolute',
+        position: autoScroll && !isIOS ? 'fixed' : 'absolute',
         ...getPosition(options),
       },
       ref: menuRef,
@@ -240,5 +241,6 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
     setOpen,
     inputValue,
     setInputValue,
+    setPosition,
   };
 };
