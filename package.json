@@ -1,6 +1,6 @@
 {
   "name": "@rmr/use-dropdown",
-  "version": "0.6.0",
+  "version": "0.6.2",
   "description": "",
   "main": "./lib/index.js",
   "repository": {
@@ -10,6 +10,12 @@
   "bugs": {
     "url": "https://github.com/RedMadRobot/use-dropdown/issues"
   },
+  "keywords": [
+    "react",
+    "hook",
+    "dropdown",
+    "use-dropdown"
+  ],
   "homepage": "https://codesandbox.io/s/usedropdown-example1-88kql",
   "scripts": {
     "build": "tsc -p build.tsconfig.json -d",
@@ -27,8 +33,11 @@
     "!jest.config.js",
     "!notify.js"
   ],
-  "author": "",
-  "license": "ISC",
+  "author": {
+    "name": "eden lane",
+    "email": "edencore@gmail.com"
+  },
+  "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.10.3",
     "@storybook/addon-actions": "^5.3.19",

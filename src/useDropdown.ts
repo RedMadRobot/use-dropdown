@@ -48,7 +48,6 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
     items,
     onSelect,
     autoScroll = false,
-    root,
   } = props;
   const inputRef = useRef<HTMLInputElement | null>(null);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
@@ -121,8 +120,7 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
     }
 
     const width = options.width === 'wrapper' ? `${wrapperRect.width}px` : options.width;
-    const top = wrapperRect.top + wrapperRect.height + 5
-      + (autoScroll ? 0 : root && root.scrollTop) + (isIOS ? window.scrollY : 0);
+    const top = wrapperRect.top + wrapperRect.height + 5 + (isIOS ? window.scrollY : 0);
 
     return {
       top: `${top}px`,

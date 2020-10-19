@@ -1,3 +1,6 @@
+## v0.6.2 - 19 Oct 2020
+- Fixed double padding
+
 ## v0.6.0 - 14 Oct 2020
 - Fixed wrong positioning of menu on iOS
 
