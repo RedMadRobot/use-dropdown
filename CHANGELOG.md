@@ -1,3 +1,6 @@
+## v0.6.3 - 19 Oct 2020
+- Exported enum with reducer action types
+
 ## v0.6.2 - 19 Oct 2020
 - Fixed double padding
 
