@@ -1,4 +1,4 @@
-## v0.6.4 - 21 Oct 2020
+## v0.6.5 - 21 Oct 2020
 - Added direction parameter
 
 ## v0.6.3 - 19 Oct 2020
