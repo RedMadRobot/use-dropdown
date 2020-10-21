@@ -10,12 +10,18 @@ import {isElementInvisible} from './utils/isElementInvisible';
 
 type MenuWidth = Pick<CSSProperties, 'width'> | 'wrapper';
 
+export enum Direction {
+  DOWN = 'down',
+  UP = 'up',
+}
+
 type UseDropdownOptions<TItem> = {
   onSelect: (item: TItem) => void;
   items: Array<TItem>;
   reducer?(state: DropdownState, action: ReducerAction): void;
   autoScroll?: boolean;
   root?: HTMLElement;
+  direction?: Direction;
 };
 
 type GetMenuPropsResult = {
@@ -48,6 +54,7 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
     items,
     onSelect,
     autoScroll = false,
+    direction = Direction.DOWN,
   } = props;
   const inputRef = useRef<HTMLInputElement | null>(null);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
@@ -121,12 +128,17 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
 
     const width = options.width === 'wrapper' ? `${wrapperRect.width}px` : options.width;
     const top = wrapperRect.top + wrapperRect.height + 5 + (isIOS ? window.scrollY : 0);
+    console.log(direction)
+    const transform = direction === Direction.DOWN
+      ? ''
+      : `translateY(-100%) translateY(-${wrapperRect.height}px)`;
 
     return {
       top: `${top}px`,
       left: `${wrapperRect.left}px`,
       width: `${width}`,
       willChange: 'top, left, width',
+      transform,
     };
   }, [wrapperRef, menuRef.current]);
 
