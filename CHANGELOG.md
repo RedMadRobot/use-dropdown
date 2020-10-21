@@ -1,3 +1,6 @@
+## v0.6.4 - 21 Oct 2020
+- Added direction parameter
+
 ## v0.6.3 - 19 Oct 2020
 - Exported enum with reducer action types
 

@@ -8,13 +8,12 @@ export const useEvent = <T extends EventListener>(
   capture = false,
   enabled = true,
 ) => {
-  const throttled = useThrottle(callback, 10  );
+  const throttled = useThrottle(callback, 10);
 
   useEffect(() => {
     if (!enabled) {
       return;
     }
-
 
     if (typeof window !== 'undefined') {
       window.addEventListener(event, throttled, capture);

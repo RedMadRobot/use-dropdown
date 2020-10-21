@@ -41,6 +41,9 @@ from closing after user selects an option
 * **autoScroll** - `boolean`
 If `true` dropdown will detect scroll of outer containers and will reposition menu accordingly.
 
+* **direction** - `Direction`
+Direction in which dropdown should be opened.
+
  ### State and methods
  `useDropdown` returns it's state and provides methods that
  you should use to build your dropdown:
