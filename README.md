@@ -18,7 +18,8 @@ const {
   items,
   onSelect,
   reducer,
-  autoScroll
+  autoScroll,
+  direction,
 })
 ```
 

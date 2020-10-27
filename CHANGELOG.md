@@ -1,3 +1,6 @@
+## v0.7.0 - 27 Oct 2020
+- Changed positioning algorithm
+
 ## v0.6.5 - 21 Oct 2020
 - Added direction parameter
 

@@ -127,7 +127,7 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
     }
 
     const width = options.width === 'wrapper' ? `${wrapperRect.width}px` : options.width;
-    const top = wrapperRect.top + wrapperRect.height + 5 + (isIOS ? window.scrollY : 0);
+    const top = wrapperRect.top + wrapperRect.height + 5 + window.scrollY;
 
     const transform = direction === Direction.DOWN
       ? ''
@@ -227,7 +227,7 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
     return {
       onMouseLeave: handleMenuMouseLeave,
       style: {
-        position: autoScroll && !isIOS ? 'fixed' : 'absolute',
+        position: autoScroll ? 'fixed' : 'absolute',
         ...getPosition(options),
       },
       ref: menuRef,
