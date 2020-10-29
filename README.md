@@ -40,7 +40,7 @@ to certain events; For example, you can prevent dropdown
 from closing after user selects an option
 
 * **autoScroll** - `boolean`
-If `true` dropdown will detect scroll of outer containers and will reposition menu accordingly.
+Use it when dropdown is inside scrolling container.
 
 * **direction** - `Direction`
 Direction in which dropdown should be opened.

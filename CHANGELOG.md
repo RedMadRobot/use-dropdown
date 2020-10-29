@@ -1,3 +1,6 @@
+## v0.8.0 - 29 Oct 2020
+- Changed positioning algorithm for autoScroll option
+
 ## v0.7.0 - 27 Oct 2020
 - Changed positioning algorithm
 
