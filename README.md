@@ -1,6 +1,9 @@
 # useDropdown
+
+[Example](https://codesandbox.io/s/usedropdown-example1-88kql)
+
 **useDropdown** is a hook that helps you build a custom
-select element that suits needs. It also takes away the pain
+select element. It also takes away the pain
 of positioning of a dropdown element and repositioning it
 on scroll.
 
@@ -46,6 +49,7 @@ Use it when dropdown is inside scrolling container.
 Direction in which dropdown should be opened.
 
  ### State and methods
+
  `useDropdown` returns it's state and provides methods that
  you should use to build your dropdown:
 
