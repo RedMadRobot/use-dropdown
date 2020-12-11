@@ -10,6 +10,9 @@
   "bugs": {
     "url": "https://github.com/RedMadRobot/use-dropdown/issues"
   },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
   "keywords": [
     "react",
     "hook",
