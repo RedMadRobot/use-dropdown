@@ -16,5 +16,13 @@ jobs:
         env:
           INCOMING_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK}}
         with:
-          text: Hello, Slack!
+          text: Опубликован пакет GITHUB_REPOSITORY@${{ env.PACKAGE_VERSION }}
+          attachments: |
+            [
+              {
+                "color": "good",
+                "author_name": "${{ github.actor }}",
+                "author_icon": "${{ github.event.sender.avatar_url }}",
+              }
+            ]
 
