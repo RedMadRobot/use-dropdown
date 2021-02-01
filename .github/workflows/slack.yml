@@ -12,11 +12,9 @@ jobs:
       - uses: nyaayaya/package-version@v1
         with:
           path: './package.json'
-      - uses: wearerequired/slack-messaging-action@v1.0.1
+      - uses: tokorom/action-slack-incoming-webhook@main
+        env:
+          INCOMING_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK}}
         with:
-          bot_token: ${{ secrets.SLACK_WEBHOOK }}
-          channel: frontend
-          payload: >-
-            {
-              "text": "Updated"
-            }
+          text: Hello, Slack!
+
