@@ -16,17 +16,18 @@ jobs:
         env:
           INCOMING_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK}}
         with:
-          text: Опубликован пакет ${GITHUB_REPOSITORY}@${{ env.PACKAGE_VERSION }}
+          text: Опубликован пакет ${{ github.repository }}@${{ env.PACKAGE_VERSION }}
           attachments: |
             [
               {
                 "color": "good",
                 "author_name": "${{ github.actor }}",
                 "author_icon": "${{ github.event.sender.avatar_url }}",
+                "fields": {
+                  "title": "Changelog",
+                  "value": "${{ github.event.repository.url }}/blob/master/CHANGELOG.md"
+                },
               },
-              {
-                "title": "Changelog",
-                "value": "${{ github.event.repository.url }}/blob/master/CHANGELOG.md"
-              },
+              
             ]
 
