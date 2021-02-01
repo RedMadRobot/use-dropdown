@@ -1,5 +1,6 @@
-## v0.8.2 - 1 Feb 2021
+## v0.8.4 - 1 Feb 2021
 - Added Side option
+- Removed 5px margin from top
 
 ## v0.8.0 - 29 Oct 2020
 - Changed positioning algorithm for autoScroll option

@@ -134,7 +134,7 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
     }
 
     const width = options.width === 'wrapper' ? `${wrapperRect.width}px` : options.width;
-    const top = wrapperRect.top + wrapperRect.height + 5 + (autoScroll ? 0 : window.scrollY);
+    const top = wrapperRect.top + wrapperRect.height + (autoScroll ? 0 : window.scrollY);
 
     const transform = direction === Direction.DOWN
       ? ''
@@ -142,7 +142,7 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
 
     const horizontalPosition = side === Side.LEFT
       ? {left: `${wrapperRect.left}px`}
-      : {right: `${wrapperRect.right}px`};
+      : {left: `${wrapperRect.right}px`, transform: 'translateX(-100%)'};
 
     return {
       top: `${top}px`,
