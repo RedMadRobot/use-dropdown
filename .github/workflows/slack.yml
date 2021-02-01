@@ -1,4 +1,4 @@
-name: CI
+name: Slack
 
 on:
   workflow_dispatch:
