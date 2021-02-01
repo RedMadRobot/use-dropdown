@@ -1,4 +1,4 @@
-## v0.8.4 - 1 Feb 2021
+## v0.8.5 - 1 Feb 2021
 - Added Side option
 - Removed 5px margin from top
 

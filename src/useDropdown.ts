@@ -136,13 +136,17 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
     const width = options.width === 'wrapper' ? `${wrapperRect.width}px` : options.width;
     const top = wrapperRect.top + wrapperRect.height + (autoScroll ? 0 : window.scrollY);
 
-    const transform = direction === Direction.DOWN
+    let transform = direction === Direction.DOWN
       ? ''
       : `translateY(-100%) translateY(-${wrapperRect.height}px)`;
 
+    if (side === Side.RIGHT) {
+      transform = `${transform} translateX(-100%)`
+    }
+
     const horizontalPosition = side === Side.LEFT
       ? {left: `${wrapperRect.left}px`}
-      : {left: `${wrapperRect.right}px`, transform: 'translateX(-100%)'};
+      : {left: `${wrapperRect.right}px`};
 
     return {
       top: `${top}px`,
