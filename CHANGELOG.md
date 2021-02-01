@@ -1,3 +1,6 @@
+## v0.8.2 - 1 Feb 2021
+- Added Side option
+
 ## v0.8.0 - 29 Oct 2020
 - Changed positioning algorithm for autoScroll option
 

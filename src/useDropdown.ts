@@ -15,6 +15,11 @@ export enum Direction {
   UP = 'up',
 }
 
+export enum Side {
+  LEFT = 'left',
+  RIGHT = 'right',
+}
+
 type UseDropdownOptions<TItem> = {
   onSelect: (item: TItem) => void;
   items: Array<TItem>;
@@ -22,6 +27,7 @@ type UseDropdownOptions<TItem> = {
   autoScroll?: boolean;
   root?: HTMLElement;
   direction?: Direction;
+  side?: Side;
 };
 
 type GetMenuPropsResult = {
@@ -55,6 +61,7 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
     onSelect,
     autoScroll = false,
     direction = Direction.DOWN,
+    side = Side.LEFT,
   } = props;
   const inputRef = useRef<HTMLInputElement | null>(null);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
@@ -133,9 +140,13 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
       ? ''
       : `translateY(-100%) translateY(-${wrapperRect.height}px)`;
 
+    const horizontalPosition = side === Side.LEFT
+      ? {left: `${wrapperRect.left}px`}
+      : {right: `${wrapperRect.right}px`};
+
     return {
       top: `${top}px`,
-      left: `${wrapperRect.left}px`,
+      ...horizontalPosition,
       width: `${width}`,
       willChange: 'top, left, width',
       transform,
