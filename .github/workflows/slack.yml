@@ -16,7 +16,7 @@ jobs:
         env:
           INCOMING_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK}}
         with:
-          text: Опубликован пакет ${{ GITHUB_REPOSITORY }}@${{ env.PACKAGE_VERSION }}
+          text: Опубликован пакет $GITHUB_REPOSITORY@${{ env.PACKAGE_VERSION }}
           attachments: |
             [
               {
