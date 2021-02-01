@@ -16,7 +16,15 @@ jobs:
       - uses: actions/checkout@v2
       - run: npm ci
       - run: npm test
+      - uses: nyaayaya/package-version@v1
+        with:
+          path: './package.json'
       - uses: JS-DevTools/npm-publish@v1
         with:
           token: ${{ secrets.NPM_TOKEN }}
+      - uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_CHANNEL: frontend
+          SLACK_MESSAGE: 'Version updated :rocket:'
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
         
