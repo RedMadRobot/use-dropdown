@@ -25,4 +25,21 @@ jobs:
           SLACK_CHANNEL: frontend
           SLACK_MESSAGE: 'Version updated :rocket:'
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      - uses: tokorom/action-slack-incoming-webhook@main
+        env:
+          INCOMING_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK}}
+        with:
+          text: Опубликован пакет ${{ github.repository }}@${{ env.PACKAGE_VERSION }}
+          attachments: |
+            [
+              {
+                "color": "good",
+                "author_name": "${{ github.actor }}",
+                "author_icon": "${{ github.event.sender.avatar_url }}",
+                "fields": {
+                  "title": "Changelog",
+                  "value": "${{ github.event.repository.url }}/blob/master/CHANGELOG.md"
+                },
+              }, 
+            ]
         
