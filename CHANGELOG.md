@@ -1,5 +1,6 @@
-## v0.8.6 - 21 Mar 2021
+## v0.8.7 - 21 Mar 2021
 - Prevent form from submitting when menu is open
+- Fixed react peer dependency version
 
 ## v0.8.5 - 1 Feb 2021
 - Added Side option
