@@ -17,10 +17,16 @@ export const basic = () => {
   const handleSelect = useCallback((value) => {
     setValue(value);
   }, []);
+  const handleSubmit = useCallback((ev) => {
+    console.log('submit!');
+    ev.preventDefault()
+  }, []);
   return (
     <div style={{height: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
       <div style={{height: '100%', padding: '900px 0', display: 'flex', justifyContent: 'center', flexGrow: 1}}>
-        <Dropdown items={items} value={value} onChange={handleSelect} root={document.body.parentElement}/>
+        <form onSubmit={handleSubmit}>
+          <Dropdown items={items} value={value} onChange={handleSelect} root={document.body.parentElement}/>
+        </form>
       </div>
     </div>
   )

@@ -1,3 +1,6 @@
+## v0.8.6 - 21 Mar 2021
+- Prevent form from submitting when menu is open
+
 ## v0.8.5 - 1 Feb 2021
 - Added Side option
 - Removed 5px margin from top

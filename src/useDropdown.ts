@@ -192,6 +192,8 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
         dispatch({type: StateChangeType.KEY_PRESS_BACKSPACE});
         break;
       case 'Enter':
+        ev.stopPropagation();
+        ev.preventDefault();
         if (highlightedIndex !== -1) {
           onSelect(items[highlightedIndex]);
           dispatch({type: StateChangeType.ITEM_CLICK, item: items[highlightedIndex]});
