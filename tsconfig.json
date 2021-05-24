@@ -1,13 +1,11 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es6",
+    "module": "ES2020",
     "declaration": true,
-    "module": "CommonJS",
     "esModuleInterop": true,
     "jsx": "react",
-    "lib": ["dom", "es2015", "es2016"],
     "sourceMap": true,
-    "moduleResolution": "node",
     "outDir": "lib/",
     "rootDir": "."
   },
