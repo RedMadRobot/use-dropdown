@@ -1,4 +1,4 @@
-import React, {CSSProperties, useCallback, useEffect, useMemo, useReducer, useRef} from 'react';
+import React, {useCallback, useEffect, useMemo, useReducer, useRef} from 'react';
 import {reducer} from './reducer';
 import {StateChangeType} from './stateChangeType';
 import {DropdownState} from './types/DropdownState';
@@ -8,7 +8,7 @@ import {useEvent} from './useEvent';
 import {findScrollContainers} from './utils/findScrollContainers';
 import {isElementInvisible} from './utils/isElementInvisible';
 
-type MenuWidth = Pick<CSSProperties, 'width'> | 'wrapper';
+type MenuWidth = Pick<CSSStyleDeclaration, 'width'> | 'wrapper';
 
 export enum Direction {
   DOWN = 'down',
@@ -32,7 +32,7 @@ type UseDropdownOptions<TItem> = {
 
 type GetMenuPropsResult = {
   onMouseLeave: () => void;
-  style: CSSProperties;
+  style: Partial<CSSStyleDeclaration>;
   ref: React.RefObject<any>;
 };
 
@@ -93,6 +93,10 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
     setOpen(true);
   };
 
+  const handleBlur = () => {
+    setTimeout(() => setOpen(false), 100);
+  }
+
   const handleItemClick = ev => {
     const index = ev.currentTarget.dataset.index;
     const item = items[index];
@@ -124,8 +128,9 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
     });
   };
 
-  const getPosition = useCallback((options?: GetPositionOptions): CSSProperties => {
+  const getPosition = useCallback((options?: GetPositionOptions): Partial<CSSStyleDeclaration> => {
     if (!wrapperRef.current) return {};
+
     const wrapperRect = wrapperRef.current.getBoundingClientRect();
 
     options = {
@@ -227,6 +232,7 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
       onChange,
       onFocus: handleInputFocus,
       onClick: handleInputFocus,
+      onBlur: handleBlur,
       value: inputValue,
       ref: inputRef,
     };
