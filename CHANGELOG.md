@@ -1,3 +1,6 @@
+## v0.8.11 - 4 Nov 2021
+- Removed preventing form from submitting behaviour
+
 ## v0.8.10 - 4 Nov 2021
 - Added reducer action type - KEY_PRESS_ENTER
 
