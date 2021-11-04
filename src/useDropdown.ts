@@ -23,7 +23,7 @@ export enum Side {
 type UseDropdownOptions<TItem> = {
   onSelect: (item: TItem) => void;
   items: Array<TItem>;
-  reducer?(state: DropdownState, action: ReducerAction): void;
+  reducer?(state: DropdownState, action: ReducerAction<TItem>): void;
   autoScroll?: boolean;
   root?: HTMLElement;
   direction?: Direction;
@@ -199,6 +199,7 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
       case 'Enter':
         ev.stopPropagation();
         ev.preventDefault();
+        dispatch({type: StateChangeType.KEY_PRESS_ENTER, item: items[highlightedIndex], inputValue });
         if (highlightedIndex !== -1) {
           onSelect(items[highlightedIndex]);
           dispatch({type: StateChangeType.ITEM_CLICK, item: items[highlightedIndex]});

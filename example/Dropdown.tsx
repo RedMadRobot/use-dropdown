@@ -22,6 +22,15 @@ export const Dropdown = ({
   autoScroll,
   root,
 }: DropdownProps) => {
+
+  const reducer = (state: DropdownState, action: ReducerAction<Option>) => {
+    console.log('Reducer', state, action);
+    switch (action.type) {
+      default:
+        return state;
+    }
+  }
+
   const {
     isOpen,
     getInputProps,
@@ -30,7 +39,8 @@ export const Dropdown = ({
     getMenuProps,
     highlightedIndex,
     setOpen,
-  } = useDropdown({
+  } = useDropdown<Option>({
+    reducer,
     onSelect: (value: Option) => {
       onChange(value);
     },

@@ -1,3 +1,9 @@
+## v0.8.10 - 4 Nov 2021
+- Added reducer action type - KEY_PRESS_ENTER
+
+## v0.8.9
+- Handling blur
+
 ## v0.8.7 - 21 Mar 2021
 - Prevent form from submitting when menu is open
 - Fixed react peer dependency version
