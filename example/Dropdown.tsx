@@ -1,106 +1,115 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {ChangeEvent, KeyboardEvent, useCallback, useEffect, useMemo, useState} from 'react';
 import ReactDOM from 'react-dom';
 import {useDropdown, DropdownState, ReducerAction} from '../src';
 import './Dropdown.css';
 
-type Option = {
-  label: string;
+export type Item = {
+  name: string;
   value: string;
+};
+
+type Props = {
+  onSelect: (item: Item) => void;
+  value?: Item;
 }
 
-type DropdownProps = {
-  items: Array<Option>;
-  value?: Option;
-  onChange?(value: Option): void;
-  root?: HTMLElement;
-  autoScroll?: boolean;
-}
-export const Dropdown = ({
-  items,
-  value,
-  onChange = () => {},
-  autoScroll,
-  root,
-}: DropdownProps) => {
+const items: Item[] = [
+  {
+    name: 'NewYork',
+    value: 'NewYork'
+  },
+  {
+    name: 'Moscow',
+    value: 'Moscow'
+  },
+  {
+    name: 'London',
+    value: 'London'
+  },
+  {
+    name: 'Amsterdam',
+    value: 'Amsterdam'
+  },
+];
 
-  const reducer = (state: DropdownState, action: ReducerAction<Option>) => {
-    console.log('Reducer', state, action);
-    switch (action.type) {
-      default:
-        return state;
-    }
+
+
+export const Dropdown: React.FC<Props> = ({onSelect, value}) => {
+  const [inputValue, setInputValue] = useState<string>('');
+
+  const handleSelect = (item: Item) => {
+    setInputValue(item.name);
+    onSelect(item);
   }
+
+  const options = useMemo(() => {
+    return items.filter(item => item.name.includes(inputValue));
+  }, [inputValue])
 
   const {
     isOpen,
-    getInputProps,
-    getWrapperProps,
-    getItemProps,
-    getMenuProps,
     highlightedIndex,
+    getWrapperProps,
+    getInputProps,
+    getMenuProps,
+    getItemProps,
     setOpen,
-  } = useDropdown<Option>({
-    reducer,
-    onSelect: (value: Option) => {
-      onChange(value);
-    },
-    items,
-    autoScroll,
-    root
-  })
+  } = useDropdown<Item>({items: options, onSelect: handleSelect})
 
-  const inputProps = getInputProps();
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setOpen(true);
 
-  const handleInputKeyDown = useCallback((ev: KeyboardEvent) => {
-    switch (ev.key) {
-      case 'Backspace':
-        onChange(null);
+    setInputValue(event.target.value);
+    onSelect(undefined);
+  };
+
+  const handleKeyDown = (event: KeyboardEvent) => {
+    switch (event.code) {
+      case 'ArrowDown':
+        setOpen(true);
+        break;
+
+      // case 'Backspace':
+      //   if(inputValue === value?.name) {
+      //     onSelect(undefined);
+      //   }
+      //   break;
     }
-  }, []);
+  }
 
-  useEffect(() => {
-    inputProps.ref.current.addEventListener('keydown', handleInputKeyDown);
+  const handleBlur = () => {
+    console.log('blur');
+    setInputValue('');
+  }
 
-    return () => {
-      inputProps.ref.current.removeEventListener('keydown', handleInputKeyDown);
-    }
-  }, [inputProps]);
+  return <div className='wrapper' {...getWrapperProps()} onKeyDown={handleKeyDown} onBlur={handleBlur}>
 
-  const toggle = useCallback(() => {
-    setOpen(!isOpen);
-  }, [isOpen])
+    <input
+      className='input'
+      type="text" id="input" {...getInputProps()}
+      placeholder='Select city'
+      value={inputValue}
+      onChange={handleChange}
+      autoComplete='off'
 
-  return (
-    <div>
-      <div {...getWrapperProps()} className="wrapper">
-        <span>{value?.label}</span>
-        <input
-          type="text"
-          className="input"
-          value={value?.label}
-          {...inputProps}
-        />
-        <span onClick={toggle}>{isOpen ? '-' : '+'}</span>
-      </div>
-      {
-        isOpen && (
-          ReactDOM.createPortal(
-            <ul className="menu" {...getMenuProps()}>
-              {
-                items.map((item, index) => (
-                  <li
-                    className={`item ${highlightedIndex === index ? 'active' : ''}`}
-                      {...getItemProps(item, index)}>
-                    {item.label}
-                  </li>
-                ))
-              }
-            </ul>,
-            document.body
+    />
+
+    {isOpen &&
+      <ul className='menu' {...getMenuProps() as any}>
+        {options.length === 0 ?
+          <li>No data</li>
+        : options.map(
+          (item: Item, index) =>
+            <li
+              key={item.value}
+              className={highlightedIndex === index ? 'item active' : 'item'}
+              {...getItemProps(item, index)}
+            >
+              {item.name}
+            </li>
           )
-
-        )
-      }
-    </div>
-  )
+        }
+      </ul>
+    }
+  </div>
 }

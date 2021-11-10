@@ -25,7 +25,8 @@
     "lint": "eslint \"./src/**/*.{ts,tsx}\"",
     "test": "jest src/",
     "start": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "storybook": "start-storybook -p 6006"
   },
   "files": [
     "**/*.d.ts",
@@ -43,10 +44,11 @@
   "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.10.3",
-    "@storybook/addon-actions": "^6.3.3",
-    "@storybook/addon-links": "^6.3.3",
+    "@storybook/addon-actions": "^6.3.12",
+    "@storybook/addon-essentials": "^6.3.12",
+    "@storybook/addon-links": "^6.3.12",
     "@storybook/addons": "^6.3.3",
-    "@storybook/react": "^6.3.3",
+    "@storybook/react": "^6.3.12",
     "@testing-library/react": "^12.0.0",
     "@testing-library/react-hooks": "^7.0.1",
     "@testing-library/user-event": "^13.1.9",
@@ -60,11 +62,13 @@
     "react-docgen-typescript-loader": "^3.7.2",
     "react-dom": "^17.0.2",
     "react-test-renderer": "^16.13.1",
+    "tailwindcss": "^2.2.19",
     "ts-jest": "^26.1.0",
     "ts-loader": "^7.0.5",
     "typescript": "^3.9.5"
   },
   "peerDependencies": {
     "react": "^17.0.2"
-  }
+  },
+  "dependencies": {}
 }
