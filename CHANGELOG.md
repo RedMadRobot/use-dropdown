@@ -1,3 +1,6 @@
+## v0.8.12 - 11 Nov 2021
+- Removed autohide on scroll because it had some problems with detecting scrollable parents
+
 ## v0.8.11 - 4 Nov 2021
 - Removed preventing form from submitting behaviour
 

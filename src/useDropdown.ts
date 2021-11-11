@@ -6,7 +6,6 @@ import {ReducerAction} from './types/ReducerAction';
 import {mergeReducers} from './utils/mergeReducers';
 import {useEvent} from './useEvent';
 import {findScrollContainers} from './utils/findScrollContainers';
-import {isElementInvisible} from './utils/isElementInvisible';
 
 type MenuWidth = Pick<CSSStyleDeclaration, 'width'> | 'wrapper';
 
@@ -163,15 +162,6 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
   }, [wrapperRef, menuRef.current]);
 
   const setPosition = useCallback(() => {
-    if (wrapperRef.current) {
-      const parents = findScrollContainers(wrapperRef.current);
-      const isInvisible = isElementInvisible(wrapperRef.current, parents);
-
-      if (isInvisible) {
-        setOpen(false);
-      }
-    }
-
     if (menuRef.current) {
       const {top, left, transform} = getPosition();
 
@@ -180,7 +170,7 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
       menuRef.current.style.transform = transform;
       menuRef.current.style.visibility = 'visible';
     }
-  }, [parents]);
+  }, []);
 
   const handleKeyDown = useCallback((ev: KeyboardEvent) => {
     switch (ev.key) {
