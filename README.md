@@ -13,7 +13,7 @@ const {
   isOpen,
   highlightedIndex,
   inputValue,
-  getInputWrapperProps,
+  getWrapperProps,
   getInputProps,
   getMenuProps,
   getItemProps,
