@@ -21,6 +21,7 @@ export const Basic = () => {
 
   return (
   <>
+    useDropdown
     <Dropdown onSelect={onSelect} value={value} />
     {value?.name}
   </>);
