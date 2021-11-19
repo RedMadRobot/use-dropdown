@@ -1,7 +1,8 @@
-import React, {ChangeEvent, KeyboardEvent, useCallback, useEffect, useMemo, useState} from 'react';
+import React, {ChangeEvent, KeyboardEvent, useMemo, useState} from 'react';
 import ReactDOM from 'react-dom';
-import {useDropdown, DropdownState, ReducerAction} from '../src';
-import './Dropdown.css';
+import classNames from 'classnames';
+import {useDropdown} from '../../src';
+import './MultiSelect.css';
 
 export type Item = {
   name: string;
@@ -9,8 +10,8 @@ export type Item = {
 };
 
 type Props = {
-  onSelect: (item: Item) => void;
-  value?: Item;
+  onSelect: (items: Item[]) => void;
+  values?: Item[];
 }
 
 const items: Item[] = [
@@ -30,16 +31,38 @@ const items: Item[] = [
     name: 'Amsterdam',
     value: 'Amsterdam'
   },
+  {
+    name: 'Tokyo',
+    value: 'Tokyo'
+  },
+  {
+    name: 'Toronto',
+    value: 'Toronto'
+  },
+  {
+    name: 'Cape Town',
+    value: 'Cape Town'
+  },
+  {
+    name: 'Rio de Janeiro',
+    value: 'Rio de Janeiro'
+  },
 ];
 
 
 
-export const Dropdown: React.FC<Props> = ({onSelect, value}) => {
+export const Dropdown: React.FC<Props> = ({onSelect, values}) => {
   const [inputValue, setInputValue] = useState<string>('');
+  const [selectedOptions, setSelected] = useState<Item[]>(values);
 
   const handleSelect = (item: Item) => {
-    setInputValue(item.name);
-    onSelect(item);
+    if (selectedOptions.some(el => el.value === item.value)) {
+      return;
+    }
+
+    const newArr = [...selectedOptions, item];
+    setSelected(newArr);
+    onSelect(newArr);
   }
 
   const options = useMemo(() => {
@@ -60,7 +83,6 @@ export const Dropdown: React.FC<Props> = ({onSelect, value}) => {
     setOpen(true);
 
     setInputValue(event.target.value);
-    onSelect(undefined);
   };
 
   const handleKeyDown = (event: KeyboardEvent) => {
@@ -72,11 +94,27 @@ export const Dropdown: React.FC<Props> = ({onSelect, value}) => {
   }
 
   const handleBlur = () => {
-    console.log('blur');
     setInputValue('');
   }
 
+  const handleCloseClick = (item: Item) => (event) => {
+    event.stopPropagation();
+    const newArr = selectedOptions.filter(el => el.value !== item.value);
+    setSelected(newArr);
+    onSelect(newArr);
+  }
+
   return <div className='wrapper' {...getWrapperProps()} onKeyDown={handleKeyDown} onBlur={handleBlur}>
+
+    {selectedOptions.length === 0 ? null :
+      selectedOptions.map((item: Item) => {
+        return (
+          <div className='multivalue' key={item.value}>
+            <span className='multivalue-name'>{item.name}</span>
+            <button type='button' className='remove' onClick={handleCloseClick(item)} aria-label={`Remove value ${item.name}`}></button>
+          </div>)
+      })
+    }
 
     <input
       className='input'
@@ -95,7 +133,12 @@ export const Dropdown: React.FC<Props> = ({onSelect, value}) => {
           (item: Item, index) =>
             <li
               key={item.value}
-              className={highlightedIndex === index ? 'item active' : 'item'}
+              className={
+                classNames('item', {
+                  'active': highlightedIndex === index,
+                  'selected': selectedOptions.some(el => el.value === item.value),
+                })
+              }
               {...getItemProps(item, index)}
             >
               {item.name}
