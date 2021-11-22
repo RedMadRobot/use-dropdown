@@ -43,7 +43,7 @@ export const Dropdown: React.FC<Props> = ({onSelect, value}) => {
   }
 
   const options = useMemo(() => {
-    return items.filter(item => item.name.includes(inputValue));
+    return items.filter(item => item.name.toLowerCase().includes(inputValue.toLowerCase()));
   }, [inputValue])
 
   const {
