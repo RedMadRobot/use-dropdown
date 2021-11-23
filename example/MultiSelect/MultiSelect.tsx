@@ -50,18 +50,17 @@ const items: Item[] = [
 
 export const Dropdown: React.FC<Props> = ({ onSelect, values }) => {
   const [inputValue, setInputValue] = useState<string>('');
-  const [selectedOptions, setSelected] = useState<Item[]>(values);
+  // const [selectedOptions, setSelected] = useState<Item[]>(values);
   const [isFocused, setFocused] = useState<Boolean>(false);
 
   const handleSelect = (item: Item) => {
     let newOptions = [];
-    if (selectedOptions.some((el) => el.value === item.value)) {
-      newOptions = selectedOptions.filter((el) => el.value !== item.value);
+    if (values.some((el) => el.value === item.value)) {
+      newOptions = values.filter((el) => el.value !== item.value);
     } else {
-      newOptions = [...selectedOptions, item];
+      newOptions = [...values, item];
     }
 
-    setSelected(newOptions);
     onSelect(newOptions);
   };
 
@@ -95,8 +94,7 @@ export const Dropdown: React.FC<Props> = ({ onSelect, values }) => {
 
   const handleCloseClick = (item: Item) => (event) => {
     event.stopPropagation();
-    const newArr = selectedOptions.filter((el) => el.value !== item.value);
-    setSelected(newArr);
+    const newArr = values.filter((el) => el.value !== item.value);
     onSelect(newArr);
   };
 
@@ -117,9 +115,9 @@ export const Dropdown: React.FC<Props> = ({ onSelect, values }) => {
       onFocus={handleFocus}
       onBlur={handleBlur}
     >
-      {selectedOptions.length === 0
+      {values.length === 0
         ? null
-        : selectedOptions.map((item: Item) => {
+        : values.map((item: Item) => {
             return (
               <div className="multivalue" key={item.value}>
                 <span className="multivalue-name">{item.name}</span>
@@ -155,7 +153,7 @@ export const Dropdown: React.FC<Props> = ({ onSelect, values }) => {
                 key={item.value}
                 className={classNames('item', {
                   active: highlightedIndex === index,
-                  selected: selectedOptions.some((el) => el.value === item.value),
+                  selected: values.some((el) => el.value === item.value),
                 })}
                 {...getItemProps(item, index)}
               >
