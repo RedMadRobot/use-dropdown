@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import React, { ChangeEvent, KeyboardEvent, useMemo, useState } from 'react';
-import { useDropdown } from '../../src';
+import { DropdownState, ReducerAction, StateChangeType, useDropdown } from '../../src';
 import './MultiSelect.css';
 
 export type Item = {
@@ -52,6 +52,18 @@ export const Dropdown: React.FC<Props> = ({ onSelect, values }) => {
   const [inputValue, setInputValue] = useState<string>('');
   const [isFocused, setFocused] = useState<Boolean>(false);
 
+  const reducer = (state: DropdownState, action: ReducerAction) => {
+    const { type } = action;
+
+    switch (type) {
+      case StateChangeType.ITEM_CLICK:
+        return { ...state, isOpen: true };
+
+      default:
+        return state;
+    }
+  };
+
   const handleSelect = (item: Item) => {
     let newOptions = [];
     if (values.some((el) => el.value === item.value)) {
@@ -75,7 +87,7 @@ export const Dropdown: React.FC<Props> = ({ onSelect, values }) => {
     getMenuProps,
     getItemProps,
     setOpen,
-  } = useDropdown<Item>({ items: options, onSelect: handleSelect });
+  } = useDropdown<Item>({ items: options, onSelect: handleSelect, reducer });
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setOpen(true);
@@ -142,7 +154,7 @@ export const Dropdown: React.FC<Props> = ({ onSelect, values }) => {
         autoComplete="off"
       />
 
-      {(isOpen || isFocused) && (
+      {isOpen && (
         <ul className="menu" {...(getMenuProps() as any)}>
           {options.length === 0 ? (
             <li>No data</li>
