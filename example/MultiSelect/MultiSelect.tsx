@@ -50,7 +50,6 @@ const items: Item[] = [
 
 export const Dropdown: React.FC<Props> = ({ onSelect, values }) => {
   const [inputValue, setInputValue] = useState<string>('');
-  // const [selectedOptions, setSelected] = useState<Item[]>(values);
   const [isFocused, setFocused] = useState<Boolean>(false);
 
   const handleSelect = (item: Item) => {
@@ -143,7 +142,7 @@ export const Dropdown: React.FC<Props> = ({ onSelect, values }) => {
         autoComplete="off"
       />
 
-      {isOpen && (
+      {(isOpen || isFocused) && (
         <ul className="menu" {...(getMenuProps() as any)}>
           {options.length === 0 ? (
             <li>No data</li>
