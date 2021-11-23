@@ -103,7 +103,7 @@ export const Dropdown: React.FC<Props> = ({ onSelect, values }) => {
     }
   };
 
-  const handleCloseClick = (item: Item) => (event) => {
+  const handleRemoveClick = (item: Item) => (event) => {
     event.stopPropagation();
     const newArr = values.filter((el) => el.value !== item.value);
     onSelect(newArr);
@@ -135,7 +135,7 @@ export const Dropdown: React.FC<Props> = ({ onSelect, values }) => {
                 <button
                   type="button"
                   className="remove"
-                  onClick={handleCloseClick(item)}
+                  onClick={handleRemoveClick(item)}
                   tabIndex={isFocused ? 0 : -1}
                   aria-label={`Remove value ${item.name}`}
                 ></button>
