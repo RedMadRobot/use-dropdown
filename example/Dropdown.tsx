@@ -43,7 +43,7 @@ export const Dropdown: React.FC<Props> = ({onSelect, value}) => {
   }
 
   const options = useMemo(() => {
-    return items.filter(item => item.name.includes(inputValue));
+    return items.filter(item => item.name.toLowerCase().includes(inputValue.toLowerCase()));
   }, [inputValue])
 
   const {
@@ -68,12 +68,6 @@ export const Dropdown: React.FC<Props> = ({onSelect, value}) => {
       case 'ArrowDown':
         setOpen(true);
         break;
-
-      // case 'Backspace':
-      //   if(inputValue === value?.name) {
-      //     onSelect(undefined);
-      //   }
-      //   break;
     }
   }
 
@@ -91,7 +85,6 @@ export const Dropdown: React.FC<Props> = ({onSelect, value}) => {
       value={inputValue}
       onChange={handleChange}
       autoComplete='off'
-
     />
 
     {isOpen &&
