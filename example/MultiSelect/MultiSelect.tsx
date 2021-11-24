@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, { ChangeEvent, KeyboardEvent, useMemo, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { DropdownState, ReducerAction, StateChangeType, useDropdown } from '../../src';
 import './MultiSelect.css';
 
@@ -103,6 +104,11 @@ export const Dropdown: React.FC<Props> = ({ onSelect, values }) => {
     }
   };
 
+  const handleResetClick = (event) => {
+    event.stopPropagation();
+    onSelect([]);
+  };
+
   const handleRemoveClick = (item: Item) => (event) => {
     event.stopPropagation();
     const newArr = values.filter((el) => el.value !== item.value);
@@ -120,7 +126,7 @@ export const Dropdown: React.FC<Props> = ({ onSelect, values }) => {
 
   return (
     <div
-      className="wrapper"
+      className={classNames('wrapper', { 'wrapper-open': isOpen })}
       {...getWrapperProps()}
       onKeyDown={handleKeyDown}
       onFocus={handleFocus}
@@ -154,26 +160,37 @@ export const Dropdown: React.FC<Props> = ({ onSelect, values }) => {
         autoComplete="off"
       />
 
-      {isOpen && (
-        <ul className="menu" {...(getMenuProps() as any)}>
-          {options.length === 0 ? (
-            <li>No data</li>
-          ) : (
-            options.map((item: Item, index) => (
-              <li
-                key={item.value}
-                className={classNames('item', {
-                  active: highlightedIndex === index,
-                  selected: values.some((el) => el.value === item.value),
-                })}
-                {...getItemProps(item, index)}
-              >
-                {item.name}
-              </li>
-            ))
-          )}
-        </ul>
+      {values.length === 0 ? null : (
+        <button
+          className="reset"
+          onClick={handleResetClick}
+          type="button"
+          aria-label="Clear all values"
+        ></button>
       )}
+
+      {isOpen &&
+        createPortal(
+          <ul className="menu" {...(getMenuProps() as any)}>
+            {options.length === 0 ? (
+              <li>No data</li>
+            ) : (
+              options.map((item: Item, index) => (
+                <li
+                  key={item.value}
+                  className={classNames('item', {
+                    active: highlightedIndex === index,
+                    selected: values.some((el) => el.value === item.value),
+                  })}
+                  {...getItemProps(item, index)}
+                >
+                  {item.name}
+                </li>
+              ))
+            )}
+          </ul>,
+          document.body
+        )}
     </div>
   );
 };
