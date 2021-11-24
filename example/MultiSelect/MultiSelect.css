@@ -9,27 +9,23 @@
 }
 
 .wrapper {
+  position: relative;
   border: 1px solid #ccc;
   border-radius: 15px;
   min-width: 400px;
   max-width: 700px;
   padding: 2px 5px;
+  padding-right: 50px;
+  display: flex;
+  flex-wrap: wrap;
   background-color: #fff;
 }
 
-.inner-wrapper {
-  position: relative;
-  width: 100%;
-  padding-right: 40px;
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.inner-wrapper::before {
+.wrapper::before {
   content: '';
   position: absolute;
   top: 50%;
-  right: 0;
+  right: 10px;
   transform: translate(0, -50%) rotate(0deg);
   display: block;
   width: 16px;
@@ -41,7 +37,7 @@
   transition: 0.3s ease-in-out;
 }
 
-.inner-wrapper-open::before {
+.wrapper-open::before {
   transform: translate(0, -50%) rotate(180deg);
 }
 
@@ -112,7 +108,7 @@
 .reset {
   position: absolute;
   top: 50%;
-  right: 20px;
+  right: 30px;
   width: 16px;
   height: 16px;
   border: none;

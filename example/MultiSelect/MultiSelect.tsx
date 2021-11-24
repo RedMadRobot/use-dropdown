@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, { ChangeEvent, KeyboardEvent, useMemo, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { DropdownState, ReducerAction, StateChangeType, useDropdown } from '../../src';
 import './MultiSelect.css';
 
@@ -125,71 +126,71 @@ export const Dropdown: React.FC<Props> = ({ onSelect, values }) => {
 
   return (
     <div
-      className="wrapper"
+      className={classNames('wrapper', { 'wrapper-open': isOpen })}
       {...getWrapperProps()}
       onKeyDown={handleKeyDown}
       onFocus={handleFocus}
       onBlur={handleBlur}
     >
-      <div className={classNames('inner-wrapper', { 'inner-wrapper-open': isOpen })}>
-        {values.length === 0
-          ? null
-          : values.map((item: Item) => {
-              return (
-                <div className="multivalue" key={item.value}>
-                  <span className="multivalue-name">{item.name}</span>
-                  <button
-                    type="button"
-                    className="remove"
-                    onClick={handleRemoveClick(item)}
-                    tabIndex={isFocused ? 0 : -1}
-                    aria-label={`Remove value ${item.name}`}
-                  ></button>
-                </div>
-              );
-            })}
+      {values.length === 0
+        ? null
+        : values.map((item: Item) => {
+            return (
+              <div className="multivalue" key={item.value}>
+                <span className="multivalue-name">{item.name}</span>
+                <button
+                  type="button"
+                  className="remove"
+                  onClick={handleRemoveClick(item)}
+                  tabIndex={isFocused ? 0 : -1}
+                  aria-label={`Remove value ${item.name}`}
+                ></button>
+              </div>
+            );
+          })}
 
-        <input
-          className="input"
-          type="text"
-          id="input"
-          {...getInputProps()}
-          placeholder="Select city"
-          value={inputValue}
-          onChange={handleChange}
-          autoComplete="off"
-        />
+      <input
+        className="input"
+        type="text"
+        id="input"
+        {...getInputProps()}
+        placeholder="Select city"
+        value={inputValue}
+        onChange={handleChange}
+        autoComplete="off"
+      />
 
-        {values.length === 0 ? null : (
-          <button
-            className="reset"
-            onClick={handleResetClick}
-            type="button"
-            aria-label="Clear all values"
-          ></button>
-        )}
-      </div>
-
-      {isOpen && (
-        <ul className="menu" {...(getMenuProps() as any)}>
-          {options.length === 0 ? (
-            <li>No data</li>
-          ) : (
-            options.map((item: Item, index) => (
-              <li
-                key={item.value}
-                className={classNames('item', {
-                  active: highlightedIndex === index,
-                  selected: values.some((el) => el.value === item.value),
-                })}
-                {...getItemProps(item, index)}
-              >
-                {item.name}
-              </li>
-            ))
-          )}
-        </ul>
+      {values.length === 0 ? null : (
+        <button
+          className="reset"
+          onClick={handleResetClick}
+          type="button"
+          aria-label="Clear all values"
+        ></button>
       )}
+
+      {isOpen &&
+        createPortal(
+          <ul className="menu" {...(getMenuProps() as any)}>
+            {options.length === 0 ? (
+              <li>No data</li>
+            ) : (
+              options.map((item: Item, index) => (
+                <li
+                  key={item.value}
+                  className={classNames('item', {
+                    active: highlightedIndex === index,
+                    selected: values.some((el) => el.value === item.value),
+                  })}
+                  {...getItemProps(item, index)}
+                >
+                  {item.name}
+                </li>
+              ))
+            )}
+          </ul>,
+          document.body
+        )}
     </div>
   );
 };
