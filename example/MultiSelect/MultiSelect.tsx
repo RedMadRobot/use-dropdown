@@ -103,6 +103,11 @@ export const Dropdown: React.FC<Props> = ({ onSelect, values }) => {
     }
   };
 
+  const handleResetClick = (event) => {
+    event.stopPropagation();
+    onSelect([]);
+  };
+
   const handleRemoveClick = (item: Item) => (event) => {
     event.stopPropagation();
     const newArr = values.filter((el) => el.value !== item.value);
@@ -126,33 +131,44 @@ export const Dropdown: React.FC<Props> = ({ onSelect, values }) => {
       onFocus={handleFocus}
       onBlur={handleBlur}
     >
-      {values.length === 0
-        ? null
-        : values.map((item: Item) => {
-            return (
-              <div className="multivalue" key={item.value}>
-                <span className="multivalue-name">{item.name}</span>
-                <button
-                  type="button"
-                  className="remove"
-                  onClick={handleRemoveClick(item)}
-                  tabIndex={isFocused ? 0 : -1}
-                  aria-label={`Remove value ${item.name}`}
-                ></button>
-              </div>
-            );
-          })}
+      <div className={classNames('inner-wrapper', { 'inner-wrapper-open': isOpen })}>
+        {values.length === 0
+          ? null
+          : values.map((item: Item) => {
+              return (
+                <div className="multivalue" key={item.value}>
+                  <span className="multivalue-name">{item.name}</span>
+                  <button
+                    type="button"
+                    className="remove"
+                    onClick={handleRemoveClick(item)}
+                    tabIndex={isFocused ? 0 : -1}
+                    aria-label={`Remove value ${item.name}`}
+                  ></button>
+                </div>
+              );
+            })}
 
-      <input
-        className="input"
-        type="text"
-        id="input"
-        {...getInputProps()}
-        placeholder="Select city"
-        value={inputValue}
-        onChange={handleChange}
-        autoComplete="off"
-      />
+        <input
+          className="input"
+          type="text"
+          id="input"
+          {...getInputProps()}
+          placeholder="Select city"
+          value={inputValue}
+          onChange={handleChange}
+          autoComplete="off"
+        />
+
+        {values.length === 0 ? null : (
+          <button
+            className="reset"
+            onClick={handleResetClick}
+            type="button"
+            aria-label="Clear all values"
+          ></button>
+        )}
+      </div>
 
       {isOpen && (
         <ul className="menu" {...(getMenuProps() as any)}>
