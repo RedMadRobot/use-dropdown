@@ -1,0 +1,110 @@
+.wrapper {
+  border: 1px solid #e0e0e0;
+  border-radius: 3px;
+  width: 250px;
+  padding: 5px 7px;
+  display: flex;
+  background-color: #ffffff;
+  gap: 5px;
+  align-items: center;
+}
+
+.wrapper.active {
+  outline: #0074D9;
+}
+
+.input-wrapper {
+  flex-grow: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.input {
+  flex-grow: 1;
+  border: none;
+  outline: none;
+  background-color: transparent;
+}
+
+.toggle {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background-image: url('./img/chevron-down.svg');
+  background-size: cover;
+  transition: .3s ease-in-out;
+  flex-shrink: 0;
+}
+
+.toggle.open {
+  transform: rotate(180deg);
+}
+
+.menu {
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border-radius: 0 0 3px 3px;
+  list-style: none;
+  background-color: #fff;
+}
+
+.item {
+  padding: 5px 10px;
+  cursor: pointer;
+  position: relative;
+}
+
+.item.active {
+  background-color: #e3ecf9;
+}
+
+.item.selected:after {
+  content: '';
+  position: absolute;
+  top: 7px;
+  right: 5px;
+  width: 10px;
+  height: 10px;
+  background-image: url('./img/check.svg');
+  background-repeat: no-repeat;
+}
+
+.tags {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  display: inline-flex;
+  padding: 2px 5px;
+  gap: 7px;
+  border-radius: 3px;
+  background-color: #dfe1e6;
+}
+
+.tag-remove {
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+  background-image: url('./img/close.svg');
+  background-size: 10px 10px;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.reset {
+  cursor: pointer;
+  display: inline-block;
+  width: 20px;
+  height: 18px;
+  border: none;
+  background-image: url('./img/x-circle.svg');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  background-size: contain;
+}

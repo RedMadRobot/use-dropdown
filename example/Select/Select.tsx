@@ -1,40 +1,15 @@
-import React, {ChangeEvent, KeyboardEvent, useCallback, useEffect, useMemo, useState} from 'react';
-import ReactDOM from 'react-dom';
-import {useDropdown, DropdownState, ReducerAction} from '../src';
-import './Dropdown.css';
-
-export type Item = {
-  name: string;
-  value: string;
-};
+import React, {ChangeEvent, KeyboardEvent, useMemo, useState} from 'react';
+import {createPortal} from 'react-dom';
+import {useDropdown} from '../../src';
+import '../styles.css';
+import {items, Item} from '../../stories/items';
 
 type Props = {
   onSelect: (item: Item) => void;
   value?: Item;
 }
 
-const items: Item[] = [
-  {
-    name: 'NewYork',
-    value: 'NewYork'
-  },
-  {
-    name: 'Moscow',
-    value: 'Moscow'
-  },
-  {
-    name: 'London',
-    value: 'London'
-  },
-  {
-    name: 'Amsterdam',
-    value: 'Amsterdam'
-  },
-];
-
-
-
-export const Dropdown: React.FC<Props> = ({onSelect, value}) => {
+export const Select: React.FC<Props> = ({onSelect, value}) => {
   const [inputValue, setInputValue] = useState<string>('');
 
   const handleSelect = (item: Item) => {
@@ -54,7 +29,7 @@ export const Dropdown: React.FC<Props> = ({onSelect, value}) => {
     getMenuProps,
     getItemProps,
     setOpen,
-  } = useDropdown<Item>({items: options, onSelect: handleSelect})
+  } = useDropdown<Item>({items: options, onSelect: handleSelect});
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setOpen(true);
@@ -72,7 +47,6 @@ export const Dropdown: React.FC<Props> = ({onSelect, value}) => {
   }
 
   const handleBlur = () => {
-    console.log('blur');
     setInputValue('');
   }
 
@@ -80,29 +54,33 @@ export const Dropdown: React.FC<Props> = ({onSelect, value}) => {
 
     <input
       className='input'
-      type="text" id="input" {...getInputProps()}
+      type="text"
+      id="search"
+      {...getInputProps()}
       placeholder='Select city'
       value={inputValue}
       onChange={handleChange}
       autoComplete='off'
     />
 
-    {isOpen &&
+    {isOpen && createPortal(
       <ul className='menu' {...getMenuProps() as any}>
         {options.length === 0 ?
           <li>No data</li>
-        : options.map(
-          (item: Item, index) =>
-            <li
-              key={item.value}
-              className={highlightedIndex === index ? 'item active' : 'item'}
-              {...getItemProps(item, index)}
-            >
-              {item.name}
-            </li>
+          : options.map(
+            (item: Item, index) =>
+              <li
+                key={item.value}
+                className={highlightedIndex === index ? 'item active' : 'item'}
+                {...getItemProps(item, index)}
+              >
+                {item.name}
+              </li>
           )
         }
-      </ul>
+      </ul>, document.body
+    )
+
     }
   </div>
 }

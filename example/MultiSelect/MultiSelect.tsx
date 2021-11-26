@@ -1,64 +1,26 @@
 import classNames from 'classnames';
-import React, { ChangeEvent, KeyboardEvent, useMemo, useState } from 'react';
-import { createPortal } from 'react-dom';
-import { DropdownState, ReducerAction, StateChangeType, useDropdown } from '../../src';
-import './MultiSelect.css';
-
-export type Item = {
-  name: string;
-  value: string;
-};
+import React, {ChangeEvent, KeyboardEvent, useMemo, useState} from 'react';
+import {createPortal} from 'react-dom';
+import {DropdownState, ReducerAction, StateChangeType, useDropdown} from '../../src';
+import '../styles.css';
+import {Item} from '../../stories/items';
 
 type Props = {
   onSelect: (items: Item[]) => void;
-  values?: Item[];
+  value?: Item[];
+  items: Item[];
 };
 
-const items: Item[] = [
-  {
-    name: 'NewYork',
-    value: 'NewYork',
-  },
-  {
-    name: 'Moscow',
-    value: 'Moscow',
-  },
-  {
-    name: 'London',
-    value: 'London',
-  },
-  {
-    name: 'Amsterdam',
-    value: 'Amsterdam',
-  },
-  {
-    name: 'Tokyo',
-    value: 'Tokyo',
-  },
-  {
-    name: 'Toronto',
-    value: 'Toronto',
-  },
-  {
-    name: 'Cape Town',
-    value: 'Cape Town',
-  },
-  {
-    name: 'Rio de Janeiro',
-    value: 'Rio de Janeiro',
-  },
-];
-
-export const Dropdown: React.FC<Props> = ({ onSelect, values }) => {
+export const MultiSelect: React.FC<Props> = ({onSelect, value = [], items}) => {
   const [inputValue, setInputValue] = useState<string>('');
   const [isFocused, setFocused] = useState<Boolean>(false);
 
   const reducer = (state: DropdownState, action: ReducerAction) => {
-    const { type } = action;
+    const {type} = action;
 
     switch (type) {
       case StateChangeType.ITEM_CLICK:
-        return { ...state, isOpen: true };
+        return {...state, isOpen: true};
 
       default:
         return state;
@@ -67,10 +29,10 @@ export const Dropdown: React.FC<Props> = ({ onSelect, values }) => {
 
   const handleSelect = (item: Item) => {
     let newOptions = [];
-    if (values.some((el) => el.value === item.value)) {
-      newOptions = values.filter((el) => el.value !== item.value);
+    if (value.some((el) => el.value === item.value)) {
+      newOptions = value.filter((el) => el.value !== item.value);
     } else {
-      newOptions = [...values, item];
+      newOptions = [...value, item];
     }
 
     onSelect(newOptions);
@@ -88,7 +50,7 @@ export const Dropdown: React.FC<Props> = ({ onSelect, values }) => {
     getMenuProps,
     getItemProps,
     setOpen,
-  } = useDropdown<Item>({ items: options, onSelect: handleSelect, reducer });
+  } = useDropdown<Item>({items: options, onSelect: handleSelect, reducer});
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setOpen(true);
@@ -111,7 +73,7 @@ export const Dropdown: React.FC<Props> = ({ onSelect, values }) => {
 
   const handleRemoveClick = (item: Item) => (event) => {
     event.stopPropagation();
-    const newArr = values.filter((el) => el.value !== item.value);
+    const newArr = value.filter((el) => el.value !== item.value);
     onSelect(newArr);
   };
 
@@ -126,71 +88,74 @@ export const Dropdown: React.FC<Props> = ({ onSelect, values }) => {
 
   return (
     <div
-      className={classNames('wrapper', { 'wrapper-open': isOpen })}
+      className={classNames('wrapper', {'wrapper-open': isOpen})}
       {...getWrapperProps()}
       onKeyDown={handleKeyDown}
       onFocus={handleFocus}
       onBlur={handleBlur}
     >
-      {values.length === 0
-        ? null
-        : values.map((item: Item) => {
-            return (
-              <div className="multivalue" key={item.value}>
-                <span className="multivalue-name">{item.name}</span>
-                <button
-                  type="button"
-                  className="remove"
-                  onClick={handleRemoveClick(item)}
-                  tabIndex={isFocused ? 0 : -1}
-                  aria-label={`Remove value ${item.name}`}
-                ></button>
-              </div>
-            );
-          })}
+      <div className="input-wrapper">
+        {
+          value.length === 0
+            ? null
+            : value.map((item: Item) => {
+              return (
+                <div className="tag" key={item.value}>
+                  <span className="multivalue-name">{item.name}</span>
+                  <button
+                    type="button"
+                    className="tag-remove"
+                    onClick={handleRemoveClick(item)}
+                    tabIndex={isFocused ? 0 : -1}
+                    aria-label={`Remove value ${item.name}`}
+                  />
+                </div>
+              );
+            })
+        }
 
-      <input
-        className="input"
-        type="text"
-        id="input"
-        {...getInputProps()}
-        placeholder="Select city"
-        value={inputValue}
-        onChange={handleChange}
-        autoComplete="off"
-      />
-
-      {values.length === 0 ? null : (
+        <input
+          {...getInputProps()}
+          className="input"
+          type="text"
+          id="search"
+          placeholder="Select city"
+          value={inputValue}
+          onChange={handleChange}
+          autoComplete="off"
+        />
+      </div>
+      {value.length === 0 ? null : (
         <button
           className="reset"
           onClick={handleResetClick}
           type="button"
           aria-label="Clear all values"
-        ></button>
+        />
       )}
-
+      <span className={isOpen ? 'toggle open' : 'toggle'} />
       {isOpen &&
-        createPortal(
-          <ul className="menu" {...(getMenuProps() as any)}>
-            {options.length === 0 ? (
-              <li>No data</li>
-            ) : (
-              options.map((item: Item, index) => (
-                <li
-                  key={item.value}
-                  className={classNames('item', {
-                    active: highlightedIndex === index,
-                    selected: values.some((el) => el.value === item.value),
-                  })}
-                  {...getItemProps(item, index)}
-                >
-                  {item.name}
-                </li>
-              ))
-            )}
-          </ul>,
-          document.body
-        )}
+      createPortal(
+        <ul className="menu" {...(getMenuProps() as any)}>
+          {options?.length === 0 ? (
+            <li>No data</li>
+          ) : (
+            options.map((item: Item, index) => (
+              <li
+                key={item.value}
+                className={classNames('item', {
+                  active: highlightedIndex === index,
+                  selected: value.some((el) => el.value === item.value),
+                })}
+                {...getItemProps(item, index)}
+              >
+                {item.name}
+              </li>
+            ))
+          )}
+        </ul>,
+        document.body
+      )}
     </div>
   );
 };
