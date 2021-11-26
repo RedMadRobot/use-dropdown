@@ -1,6 +1,6 @@
 # useDropdown
 
-[Example](https://redmadrobot.github.io/use-dropdown)
+[Example](https://redmadrobot.github.io/use-dropdown/?path=/docs/examples-select--select)
 
 **useDropdown** is a hook that helps you to build a custom
 select element. It also takes away the pain
