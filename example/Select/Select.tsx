@@ -1,25 +1,25 @@
-import React, {ChangeEvent, KeyboardEvent, useMemo, useState} from 'react';
-import {createPortal} from 'react-dom';
-import {useDropdown} from '../../src';
+import React, { ChangeEvent, KeyboardEvent, useMemo, useState } from 'react';
+import { createPortal } from 'react-dom';
+import { useDropdown } from '../../src';
+import { Item, items } from '../../stories/items';
 import '../styles.css';
-import {items, Item} from '../../stories/items';
 
 type Props = {
   onSelect: (item: Item) => void;
   value?: Item;
-}
+};
 
-export const Select: React.FC<Props> = ({onSelect, value}) => {
+export const Select: React.FC<Props> = ({ onSelect, value }) => {
   const [inputValue, setInputValue] = useState<string>('');
 
   const handleSelect = (item: Item) => {
     setInputValue(item.name);
     onSelect(item);
-  }
+  };
 
   const options = useMemo(() => {
-    return items.filter(item => item.name.toLowerCase().includes(inputValue.toLowerCase()));
-  }, [inputValue])
+    return items.filter((item) => item.name.toLowerCase().includes(inputValue.toLowerCase()));
+  }, [inputValue]);
 
   const {
     isOpen,
@@ -29,7 +29,7 @@ export const Select: React.FC<Props> = ({onSelect, value}) => {
     getMenuProps,
     getItemProps,
     setOpen,
-  } = useDropdown<Item>({items: options, onSelect: handleSelect});
+  } = useDropdown<Item>({ items: options, onSelect: handleSelect });
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setOpen(true);
@@ -44,43 +44,40 @@ export const Select: React.FC<Props> = ({onSelect, value}) => {
         setOpen(true);
         break;
     }
-  }
+  };
 
-  const handleBlur = () => {
-    setInputValue('');
-  }
+  return (
+    <div className="wrapper" {...getWrapperProps()} onKeyDown={handleKeyDown}>
+      <input
+        className="input"
+        type="text"
+        id="search"
+        {...getInputProps()}
+        placeholder="Select city"
+        value={inputValue}
+        onChange={handleChange}
+        autoComplete="off"
+      />
 
-  return <div className='wrapper' {...getWrapperProps()} onKeyDown={handleKeyDown} onBlur={handleBlur}>
-
-    <input
-      className='input'
-      type="text"
-      id="search"
-      {...getInputProps()}
-      placeholder='Select city'
-      value={inputValue}
-      onChange={handleChange}
-      autoComplete='off'
-    />
-
-    {isOpen && createPortal(
-      <ul className='menu' {...getMenuProps() as any}>
-        {options.length === 0 ?
-          <li>No data</li>
-          : options.map(
-            (item: Item, index) =>
-              <li
-                key={item.value}
-                className={highlightedIndex === index ? 'item active' : 'item'}
-                {...getItemProps(item, index)}
-              >
-                {item.name}
-              </li>
-          )
-        }
-      </ul>, document.body
-    )
-
-    }
-  </div>
-}
+      {isOpen &&
+        createPortal(
+          <ul className="menu" {...(getMenuProps() as any)}>
+            {options.length === 0 ? (
+              <li>No data</li>
+            ) : (
+              options.map((item: Item, index) => (
+                <li
+                  key={item.value}
+                  className={highlightedIndex === index ? 'item active' : 'item'}
+                  {...getItemProps(item, index)}
+                >
+                  {item.name}
+                </li>
+              ))
+            )}
+          </ul>,
+          document.body
+        )}
+    </div>
+  );
+};

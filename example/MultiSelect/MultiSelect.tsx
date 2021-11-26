@@ -1,9 +1,9 @@
 import classNames from 'classnames';
-import React, {ChangeEvent, KeyboardEvent, useMemo, useState} from 'react';
-import {createPortal} from 'react-dom';
-import {DropdownState, ReducerAction, StateChangeType, useDropdown} from '../../src';
+import React, { ChangeEvent, KeyboardEvent, useMemo, useState } from 'react';
+import { createPortal } from 'react-dom';
+import { DropdownState, ReducerAction, StateChangeType, useDropdown } from '../../src';
+import { Item } from '../../stories/items';
 import '../styles.css';
-import {Item} from '../../stories/items';
 
 type Props = {
   onSelect: (items: Item[]) => void;
@@ -11,16 +11,16 @@ type Props = {
   items: Item[];
 };
 
-export const MultiSelect: React.FC<Props> = ({onSelect, value = [], items}) => {
+export const MultiSelect: React.FC<Props> = ({ onSelect, value = [], items }) => {
   const [inputValue, setInputValue] = useState<string>('');
   const [isFocused, setFocused] = useState<Boolean>(false);
 
   const reducer = (state: DropdownState, action: ReducerAction) => {
-    const {type} = action;
+    const { type } = action;
 
     switch (type) {
       case StateChangeType.ITEM_CLICK:
-        return {...state, isOpen: true};
+        return { ...state, isOpen: true };
 
       default:
         return state;
@@ -50,7 +50,7 @@ export const MultiSelect: React.FC<Props> = ({onSelect, value = [], items}) => {
     getMenuProps,
     getItemProps,
     setOpen,
-  } = useDropdown<Item>({items: options, onSelect: handleSelect, reducer});
+  } = useDropdown<Item>({ items: options, onSelect: handleSelect, reducer });
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setOpen(true);
@@ -88,17 +88,16 @@ export const MultiSelect: React.FC<Props> = ({onSelect, value = [], items}) => {
 
   return (
     <div
-      className={classNames('wrapper', {'wrapper-open': isOpen})}
+      className={classNames('wrapper', { 'wrapper-open': isOpen })}
       {...getWrapperProps()}
       onKeyDown={handleKeyDown}
       onFocus={handleFocus}
       onBlur={handleBlur}
     >
       <div className="input-wrapper">
-        {
-          value.length === 0
-            ? null
-            : value.map((item: Item) => {
+        {value.length === 0
+          ? null
+          : value.map((item: Item) => {
               return (
                 <div className="tag" key={item.value}>
                   <span className="multivalue-name">{item.name}</span>
@@ -111,8 +110,7 @@ export const MultiSelect: React.FC<Props> = ({onSelect, value = [], items}) => {
                   />
                 </div>
               );
-            })
-        }
+            })}
 
         <input
           {...getInputProps()}
@@ -135,27 +133,27 @@ export const MultiSelect: React.FC<Props> = ({onSelect, value = [], items}) => {
       )}
       <span className={isOpen ? 'toggle open' : 'toggle'} />
       {isOpen &&
-      createPortal(
-        <ul className="menu" {...(getMenuProps() as any)}>
-          {options?.length === 0 ? (
-            <li>No data</li>
-          ) : (
-            options.map((item: Item, index) => (
-              <li
-                key={item.value}
-                className={classNames('item', {
-                  active: highlightedIndex === index,
-                  selected: value.some((el) => el.value === item.value),
-                })}
-                {...getItemProps(item, index)}
-              >
-                {item.name}
-              </li>
-            ))
-          )}
-        </ul>,
-        document.body
-      )}
+        createPortal(
+          <ul className="menu" {...(getMenuProps() as any)}>
+            {options?.length === 0 ? (
+              <li>No data</li>
+            ) : (
+              options.map((item: Item, index) => (
+                <li
+                  key={item.value}
+                  className={classNames('item', {
+                    active: highlightedIndex === index,
+                    selected: value.some((el) => el.value === item.value),
+                  })}
+                  {...getItemProps(item, index)}
+                >
+                  {item.name}
+                </li>
+              ))
+            )}
+          </ul>,
+          document.body
+        )}
     </div>
   );
 };
