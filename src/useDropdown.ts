@@ -261,7 +261,12 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
   }, [isOpen]);
 
   const handleClickOutside = (event) => {
-    if (menuRef.current && !menuRef.current.contains(event.target)) {
+    if (
+      menuRef.current &&
+      !menuRef.current.contains(event.target) &&
+      wrapperRef.current &&
+      !wrapperRef.current.contains(event.target)
+    ) {
       onClickOutside && onClickOutside();
       setOpen(false);
     }

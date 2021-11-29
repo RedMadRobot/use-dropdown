@@ -13,7 +13,7 @@ type Props = {
 
 export const MultiSelect: React.FC<Props> = ({ onSelect, value = [], items }) => {
   const [inputValue, setInputValue] = useState<string>('');
-  const [isFocused, setFocused] = useState<Boolean>(false);
+  const [isFocused, setFocused] = useState<boolean>(false);
 
   const reducer = (state: DropdownState, action: ReducerAction) => {
     const { type } = action;
