@@ -10,7 +10,7 @@
 }
 
 .wrapper.active {
-  outline: #0074D9;
+  outline: #0074d9;
 }
 
 .input-wrapper {
@@ -33,7 +33,7 @@
   height: 16px;
   background-image: url('./img/chevron-down.svg');
   background-size: cover;
-  transition: .3s ease-in-out;
+  transition: 0.3s ease-in-out;
   flex-shrink: 0;
 }
 
@@ -101,6 +101,7 @@
   display: inline-block;
   width: 20px;
   height: 18px;
+  flex-shrink: 0;
   border: none;
   background-image: url('./img/x-circle.svg');
   background-position: center center;

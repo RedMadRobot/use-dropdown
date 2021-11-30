@@ -1,0 +1,16 @@
+.modal-wrapper {
+  position: relative;
+}
+
+.modal {
+  box-sizing: border-box;
+  position: absolute;
+  left: 30%;
+  top: 0;
+  width: 400px;
+  height: 400px;
+  overflow: auto;
+  border: 1px dotted black;
+  padding: 1rem;
+  box-shadow: 5px 5px 5px -5px rgba(34, 60, 80, 0.6);
+}
