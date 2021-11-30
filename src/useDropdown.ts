@@ -278,11 +278,11 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
       setPosition();
 
       document.addEventListener('click', handleClickOutside, true);
-
-      return () => {
-        document.removeEventListener('click', handleClickOutside, true);
-      };
     }
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside, true);
+    };
   }, [isOpen]);
 
   return {
