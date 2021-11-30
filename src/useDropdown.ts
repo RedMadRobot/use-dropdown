@@ -4,6 +4,7 @@ import { StateChangeType } from './stateChangeType';
 import { DropdownState } from './types/DropdownState';
 import { ReducerAction } from './types/ReducerAction';
 import { useEvent } from './useEvent';
+import { useObserver } from './useObserver';
 import { findScrollContainers } from './utils/findScrollContainers';
 import { mergeReducers } from './utils/mergeReducers';
 
@@ -254,12 +255,6 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
     [menuRef.current]
   );
 
-  useEffect(() => {
-    if (isOpen) {
-      setPosition();
-    }
-  }, [isOpen]);
-
   const handleClickOutside = (event) => {
     if (
       menuRef.current &&
@@ -272,15 +267,23 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
     }
   };
 
+  const onChangeWrapperSize = () => {
+    setPosition();
+  };
+
+  useObserver({ callback: onChangeWrapperSize, element: wrapperRef });
+
   useEffect(() => {
-    document.addEventListener('click', handleClickOutside, true);
     if (isOpen) {
       setPosition();
+
+      document.addEventListener('click', handleClickOutside, true);
+
+      return () => {
+        document.removeEventListener('click', handleClickOutside, true);
+      };
     }
-    return () => {
-      document.removeEventListener('click', handleClickOutside, true);
-    };
-  });
+  }, [isOpen]);
 
   return {
     getWrapperProps,
