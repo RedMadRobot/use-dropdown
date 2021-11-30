@@ -24,6 +24,7 @@ export const Select: React.FC<Props> = ({ onSelect, value }) => {
   const {
     isOpen,
     highlightedIndex,
+    setHighlightedIndex,
     getWrapperProps,
     getInputProps,
     getMenuProps,
@@ -33,6 +34,8 @@ export const Select: React.FC<Props> = ({ onSelect, value }) => {
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setOpen(true);
+    // Need reset highlightedIndex for correct keyDown after filter event
+    setHighlightedIndex(-1);
 
     setInputValue(event.target.value);
     onSelect(undefined);
