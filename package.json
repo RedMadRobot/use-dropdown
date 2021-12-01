@@ -19,7 +19,7 @@
     "dropdown",
     "use-dropdown"
   ],
-  "homepage": "https://codesandbox.io/s/usedropdown-example1-88kql",
+  "homepage": "https://redmadrobot.github.io/use-dropdown/?path=/docs/readme--page",
   "scripts": {
     "build": "tsc -p build.tsconfig.json -d",
     "lint": "eslint \"./src/**/*.{ts,tsx}\"",
