@@ -1,3 +1,6 @@
+## v0.8.14 - 1 Dec 2021
+- Updated homepage
+
 ## v0.8.13 - 1 Dec 2021
 - Removed onBlur behaviour from input, added clickOutside option instead
 - Added ResizeObserver to detect wrapper size changes
