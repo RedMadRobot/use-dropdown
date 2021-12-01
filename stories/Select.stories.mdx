@@ -1,7 +1,7 @@
-import {useState} from "react";
-import {Meta, Story} from '@storybook/addon-docs';
-import {Select} from "../example/Select/Select";
-import {items} from './items';
+import { useState } from 'react';
+import { Meta, Story } from '@storybook/addon-docs';
+import { Select } from '../example/Select/Select';
+import { items } from './items';
 
 <Meta
   title="Examples/Select"
@@ -9,8 +9,8 @@ import {items} from './items';
   parameters={{
     viewMode: 'docs',
     previewTabs: {
-      canvas: { hidden: true }
-    }
+      canvas: { hidden: true },
+    },
   }}
 />
 
@@ -20,18 +20,17 @@ Select component allows user to make a single selection from a list of options.
 
 export const Template = (args) => {
   const [value, setValue] = useState();
-  const onSelect = value => setValue(value);
-  return <Select value={value} onSelect={onSelect} {...args} />
-}
+  const onSelect = (value) => setValue(value);
+  return <Select {...args} value={value} onSelect={onSelect} />;
+};
 
-  <Story
-    name="Select"
-    args={{
-      items,
-    }}
-  >
-    {Template.bind({})}
-  </Story>
+<Story
+  name="Select"
+  args={{
+    items,
+  }}
+>
+  {Template.bind({})}
+</Story>
 
 [code](https://github.com/RedMadRobot/use-dropdown/tree/master/example/Select/Select.tsx)
-

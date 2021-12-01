@@ -1,11 +1,12 @@
-import React, {useCallback, useEffect, useMemo, useReducer, useRef} from 'react';
-import {reducer} from './reducer';
-import {StateChangeType} from './stateChangeType';
-import {DropdownState} from './types/DropdownState';
-import {ReducerAction} from './types/ReducerAction';
-import {mergeReducers} from './utils/mergeReducers';
-import {useEvent} from './useEvent';
-import {findScrollContainers} from './utils/findScrollContainers';
+import React, { useCallback, useEffect, useMemo, useReducer, useRef } from 'react';
+import { reducer } from './reducer';
+import { StateChangeType } from './stateChangeType';
+import { DropdownState } from './types/DropdownState';
+import { ReducerAction } from './types/ReducerAction';
+import { useEvent } from './useEvent';
+import { useObserver } from './useObserver';
+import { findScrollContainers } from './utils/findScrollContainers';
+import { mergeReducers } from './utils/mergeReducers';
 
 type MenuWidth = Pick<CSSStyleDeclaration, 'width'> | 'wrapper';
 
@@ -27,6 +28,7 @@ type UseDropdownOptions<TItem> = {
   root?: HTMLElement;
   direction?: Direction;
   side?: Side;
+  onClickOutside?: () => void;
 };
 
 type GetMenuPropsResult = {
@@ -42,17 +44,17 @@ type GetMenuPropsOptions = {
 type GetPositionOptions = {
   width?: MenuWidth;
   autoScroll?: boolean;
-}
+};
 
 const initialState = {
   isOpen: false,
   highlightedIndex: -1,
-  inputValue: ''
+  inputValue: '',
 };
 
 const defaultMenuOptions: GetPositionOptions = {
-  width: 'wrapper'
-}
+  width: 'wrapper',
+};
 
 export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
   const {
@@ -61,42 +63,37 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
     autoScroll = false,
     direction = Direction.DOWN,
     side = Side.LEFT,
+    onClickOutside,
   } = props;
   const inputRef = useRef<HTMLInputElement | null>(null);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const menuRef = useRef<any | null>(null);
-  const [state, dispatch] =
-    useReducer<React.Reducer<DropdownState, ReducerAction>>(mergeReducers(reducer, props.reducer), initialState);
-  const {
-    isOpen,
-    highlightedIndex,
-    inputValue,
-  } = state;
+  const [state, dispatch] = useReducer<React.Reducer<DropdownState, ReducerAction>>(
+    mergeReducers(reducer, props.reducer),
+    initialState
+  );
+  const { isOpen, highlightedIndex, inputValue } = state;
   const parents = useMemo(() => findScrollContainers(wrapperRef.current), [wrapperRef.current]);
   const isIOS = typeof navigator !== 'undefined' && /(iPad|iPhone|iPod)/g.test(navigator.userAgent);
 
-  const onChange = useCallback(ev => {
+  const onChange = useCallback((ev) => {
     const inputValue = ev.target.value;
-    dispatch({type: StateChangeType.INPUT_CHANGE, inputValue});
+    dispatch({ type: StateChangeType.INPUT_CHANGE, inputValue });
   }, []);
 
-  const onMouseEnter = ev => {
+  const onMouseEnter = (ev) => {
     setHighlightedIndex(parseInt(ev.target.dataset.index));
   };
 
   const handleMenuMouseLeave = () => {
-    dispatch({type: StateChangeType.SET_HIGHLIGHTED_INDEX, highlightedIndex: -1});
+    dispatch({ type: StateChangeType.SET_HIGHLIGHTED_INDEX, highlightedIndex: -1 });
   };
 
   const handleInputFocus = () => {
     setOpen(true);
   };
 
-  const handleBlur = () => {
-    setTimeout(() => setOpen(false), 100);
-  }
-
-  const handleItemClick = ev => {
+  const handleItemClick = (ev) => {
     const index = ev.currentTarget.dataset.index;
     const item = items[index];
     onSelect(item);
@@ -127,43 +124,46 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
     });
   };
 
-  const getPosition = useCallback((options?: GetPositionOptions): Partial<CSSStyleDeclaration> => {
-    if (!wrapperRef.current) return {};
+  const getPosition = useCallback(
+    (options?: GetPositionOptions): Partial<CSSStyleDeclaration> => {
+      if (!wrapperRef.current) return {};
 
-    const wrapperRect = wrapperRef.current.getBoundingClientRect();
+      const wrapperRect = wrapperRef.current.getBoundingClientRect();
 
-    options = {
-      ...defaultMenuOptions,
-      ...options,
-    }
+      options = {
+        ...defaultMenuOptions,
+        ...options,
+      };
 
-    const width = options.width === 'wrapper' ? `${wrapperRect.width}px` : options.width;
-    const top = wrapperRect.top + wrapperRect.height + (autoScroll ? 0 : window.scrollY);
+      const width = options.width === 'wrapper' ? `${wrapperRect.width}px` : options.width;
+      const top = wrapperRect.top + wrapperRect.height + (autoScroll ? 0 : window.scrollY);
 
-    let transform = direction === Direction.DOWN
-      ? ''
-      : `translateY(-100%) translateY(-${wrapperRect.height}px)`;
+      let transform =
+        direction === Direction.DOWN
+          ? ''
+          : `translateY(-100%) translateY(-${wrapperRect.height}px)`;
 
-    if (side === Side.RIGHT) {
-      transform = `${transform} translateX(-100%)`
-    }
+      if (side === Side.RIGHT) {
+        transform = `${transform} translateX(-100%)`;
+      }
 
-    const horizontalPosition = side === Side.LEFT
-      ? {left: `${wrapperRect.left}px`}
-      : {left: `${wrapperRect.right}px`};
+      const horizontalPosition =
+        side === Side.LEFT ? { left: `${wrapperRect.left}px` } : { left: `${wrapperRect.right}px` };
 
-    return {
-      top: `${top}px`,
-      ...horizontalPosition,
-      width: `${width}`,
-      willChange: 'top, left, width',
-      transform,
-    };
-  }, [wrapperRef, menuRef.current]);
+      return {
+        top: `${top}px`,
+        ...horizontalPosition,
+        width: `${width}`,
+        willChange: 'top, left, width',
+        transform,
+      };
+    },
+    [wrapperRef, menuRef.current]
+  );
 
   const setPosition = useCallback(() => {
     if (menuRef.current) {
-      const {top, left, transform} = getPosition();
+      const { top, left, transform } = getPosition();
 
       menuRef.current.style.top = top;
       menuRef.current.style.left = left;
@@ -172,29 +172,36 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
     }
   }, []);
 
-  const handleKeyDown = useCallback((ev: KeyboardEvent) => {
-    switch (ev.key) {
-      case 'ArrowDown':
-        dispatch({type: StateChangeType.KEY_PRESS_DOWN, items});
-        break;
-      case 'ArrowUp':
-        dispatch({type: StateChangeType.KEY_PRESS_UP, items});
-        break;
-      case 'Escape':
-        dispatch({type: StateChangeType.KEY_PRESS_ESC});
-        break;
-      case 'Backspace':
-        dispatch({type: StateChangeType.KEY_PRESS_BACKSPACE});
-        break;
-      case 'Enter':
-        dispatch({type: StateChangeType.KEY_PRESS_ENTER, item: items[highlightedIndex], inputValue });
-        if (highlightedIndex !== -1) {
-          onSelect(items[highlightedIndex]);
-          dispatch({type: StateChangeType.ITEM_CLICK, item: items[highlightedIndex]});
-        }
-        break;
-    }
-  }, [highlightedIndex, isOpen, onSelect]);
+  const handleKeyDown = useCallback(
+    (ev: KeyboardEvent) => {
+      switch (ev.key) {
+        case 'ArrowDown':
+          dispatch({ type: StateChangeType.KEY_PRESS_DOWN, items });
+          break;
+        case 'ArrowUp':
+          dispatch({ type: StateChangeType.KEY_PRESS_UP, items });
+          break;
+        case 'Escape':
+          dispatch({ type: StateChangeType.KEY_PRESS_ESC });
+          break;
+        case 'Backspace':
+          dispatch({ type: StateChangeType.KEY_PRESS_BACKSPACE });
+          break;
+        case 'Enter':
+          dispatch({
+            type: StateChangeType.KEY_PRESS_ENTER,
+            item: items[highlightedIndex],
+            inputValue,
+          });
+          if (highlightedIndex !== -1) {
+            onSelect(items[highlightedIndex]);
+            dispatch({ type: StateChangeType.ITEM_CLICK, item: items[highlightedIndex] });
+          }
+          break;
+      }
+    },
+    [highlightedIndex, isOpen, onSelect]
+  );
 
   useEvent(parents, 'scroll', setPosition, true, autoScroll && isOpen);
 
@@ -221,7 +228,6 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
       onChange,
       onFocus: handleInputFocus,
       onClick: handleInputFocus,
-      onBlur: handleBlur,
       value: inputValue,
       ref: inputRef,
     };
@@ -235,21 +241,48 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
     };
   };
 
-  const getMenuProps = useCallback((options?: GetMenuPropsOptions): GetMenuPropsResult => {
-    return {
-      onMouseLeave: handleMenuMouseLeave,
-      style: {
-        position: autoScroll ? 'fixed' : 'absolute',
-        ...getPosition(options),
-      },
-      ref: menuRef,
-    };
-  }, [menuRef.current]);
+  const getMenuProps = useCallback(
+    (options?: GetMenuPropsOptions): GetMenuPropsResult => {
+      return {
+        onMouseLeave: handleMenuMouseLeave,
+        style: {
+          position: autoScroll ? 'fixed' : 'absolute',
+          ...getPosition(options),
+        },
+        ref: menuRef,
+      };
+    },
+    [menuRef.current]
+  );
+
+  const handleClickOutside = (event) => {
+    if (
+      menuRef.current &&
+      !menuRef.current.contains(event.target) &&
+      wrapperRef.current &&
+      !wrapperRef.current.contains(event.target)
+    ) {
+      onClickOutside && onClickOutside();
+      setOpen(false);
+    }
+  };
+
+  const onChangeWrapperSize = () => {
+    setPosition();
+  };
+
+  useObserver({ callback: onChangeWrapperSize, element: wrapperRef });
 
   useEffect(() => {
     if (isOpen) {
       setPosition();
+
+      document.addEventListener('click', handleClickOutside, true);
     }
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside, true);
+    };
   }, [isOpen]);
 
   return {

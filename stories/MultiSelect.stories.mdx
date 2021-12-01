@@ -1,7 +1,7 @@
-import {useState} from "react";
-import {Meta, Story} from '@storybook/addon-docs';
-import {MultiSelect} from "../example/MultiSelect/MultiSelect";
-import {items} from './items';
+import { useState } from 'react';
+import { Meta, Story } from '@storybook/addon-docs';
+import { MultiSelect } from '../example/MultiSelect/MultiSelect';
+import { items } from './items';
 
 <Meta
   title="Examples/MultiSelect"
@@ -9,8 +9,8 @@ import {items} from './items';
   parameters={{
     viewMode: 'docs',
     previewTabs: {
-      canvas: { hidden: true }
-    }
+      canvas: { hidden: true },
+    },
   }}
 />
 
@@ -20,22 +20,19 @@ MultiSelect component allows user to make a multiple selection from a list of op
 
 export const Template = (args) => {
   const [value, setValue] = useState();
-  console.log(args);
-  const onSelect = value => {
-    console.log(value);
+  const onSelect = (value) => {
     setValue(value);
-  }
-  return <MultiSelect {...args} value={value} onSelect={onSelect} />
-}
+  };
+  return <MultiSelect {...args} value={value} onSelect={onSelect} />;
+};
 
-  <Story
-    name="MultiSelect"
-    args={{
-      items,
-    }}
-  >
-    {Template.bind({})}
-  </Story>
+<Story
+  name="MultiSelect"
+  args={{
+    items,
+  }}
+>
+  {Template.bind({})}
+</Story>
 
 [code](https://github.com/RedMadRobot/use-dropdown/tree/master/example/MultiSelect/MultiSelect.tsx)
-
