@@ -45,6 +45,7 @@ export const MultiSelect: React.FC<Props> = ({ onSelect, value = [], items }) =>
   const {
     isOpen,
     highlightedIndex,
+    setHighlightedIndex,
     getWrapperProps,
     getInputProps,
     getMenuProps,
@@ -54,6 +55,8 @@ export const MultiSelect: React.FC<Props> = ({ onSelect, value = [], items }) =>
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setOpen(true);
+    // Need reset highlightedIndex for correct keyDown after filter event
+    setHighlightedIndex(-1);
 
     setInputValue(event.target.value);
   };
