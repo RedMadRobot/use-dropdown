@@ -44,6 +44,7 @@
   "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.10.3",
+    "@juggle/resize-observer": "^3.3.1",
     "@storybook/addon-actions": "^6.3.12",
     "@storybook/addon-docs": "^6.3.12",
     "@storybook/addon-essentials": "^6.3.12",
@@ -56,6 +57,7 @@
     "@types/jest": "^26.0.0",
     "@types/react": "^17.0.2",
     "@types/react-dom": "^17.0.9",
+    "@types/resize-observer-browser": "^0.1.6",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
     "babel-loader": "^8.1.0",
@@ -73,7 +75,8 @@
     "tailwindcss": "^2.2.19",
     "ts-jest": "^26.1.0",
     "ts-loader": "^7.0.5",
-    "typescript": "^3.9.5"
+    "typescript": "^3.9.5",
+    "react-error-boundary": "^3.1.4"
   },
   "peerDependencies": {
     "react": "^17.0.2"

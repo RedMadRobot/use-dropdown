@@ -29,6 +29,7 @@ type UseDropdownOptions<TItem> = {
   direction?: Direction;
   side?: Side;
   onClickOutside?: () => void;
+  ResizeObserver?: typeof ResizeObserver;
 };
 
 type GetMenuPropsResult = {
@@ -64,6 +65,7 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
     direction = Direction.DOWN,
     side = Side.LEFT,
     onClickOutside,
+    ResizeObserver,
   } = props;
   const inputRef = useRef<HTMLInputElement | null>(null);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
@@ -271,7 +273,7 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
     setPosition();
   };
 
-  useObserver({ callback: onChangeWrapperSize, element: wrapperRef });
+  useObserver({ callback: onChangeWrapperSize, element: wrapperRef, ResizeObserver });
 
   useEffect(() => {
     if (isOpen) {
