@@ -1,3 +1,7 @@
+## v0.8.13 - 1 Dec 2021
+- Removed onBlur behaviour from input, added clickOutside option instead
+- Added ResizeObserver to detect wrapper size changes
+
 ## v0.8.12 - 11 Nov 2021
 - Removed autohide on scroll because it had some problems with detecting scrollable parents
 
