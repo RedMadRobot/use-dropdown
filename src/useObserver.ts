@@ -3,9 +3,14 @@ import { RefObject, useEffect, useRef } from 'react';
 type Props = {
   callback: () => void;
   element: RefObject<HTMLDivElement>;
+  ResizeObserver?: typeof ResizeObserver;
 };
 
-export const useObserver = ({ callback, element }: Props) => {
+export const useObserver = ({
+  callback,
+  element,
+  ResizeObserver = window.ResizeObserver,
+}: Props) => {
   const current = element && element.current;
 
   const observer = useRef(null);
