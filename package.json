@@ -41,6 +41,11 @@
     "name": "eden lane",
     "email": "edencore@gmail.com"
   },
+  "contributors": [{
+    "name": "pbuba",
+    "email": "sas_bub@mail.ru",
+    "url": "https://github.com/pbuba"
+  }],
   "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.10.3",
