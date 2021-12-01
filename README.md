@@ -81,6 +81,12 @@ const Select = ({value, onChange, items}) => {
   to certain events; For example, you can prevent dropdown
   from closing after user selects an option
 
+- **onClickOutside** - `() => void`  
+  Callback which is called when user clicks outside menu or wrapper
+
+- **ResizeObserver**  
+  Use it to pass your polyfill for ResizeObserver. By default uses window.ResizeObserver
+
 ### State and methods
 
 `useDropdown` returns it's state and provides methods that
