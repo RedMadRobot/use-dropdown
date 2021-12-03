@@ -22,11 +22,7 @@ export const Template = (args) => {
   const onSelect = (value) => {
     setValue(value);
   };
-  return (
-    <Modal>
-      <MultiSelect {...args} value={value} onSelect={onSelect} />
-    </Modal>
-  );
+  return <Modal args={args} value={value} onSelect={onSelect} />;
 };
 
 <Story

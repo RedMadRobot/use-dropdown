@@ -41,15 +41,18 @@
     "name": "eden lane",
     "email": "edencore@gmail.com"
   },
-  "contributors": [{
-    "name": "pbuba",
-    "email": "sas_bub@mail.ru",
-    "url": "https://github.com/pbuba"
-  }],
+  "contributors": [
+    {
+      "name": "pbuba",
+      "email": "sas_bub@mail.ru",
+      "url": "https://github.com/pbuba"
+    }
+  ],
   "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.10.3",
     "@juggle/resize-observer": "^3.3.1",
+    "@popperjs/core": "^2.11.0",
     "@storybook/addon-actions": "^6.3.12",
     "@storybook/addon-docs": "^6.3.12",
     "@storybook/addon-essentials": "^6.3.12",
@@ -76,12 +79,14 @@
     "react": "17.0.2",
     "react-docgen-typescript-loader": "^3.7.2",
     "react-dom": "^17.0.2",
+    "react-error-boundary": "^3.1.4",
+    "react-merge-refs": "^1.1.0",
+    "react-popper": "^2.2.5",
     "react-test-renderer": "^16.13.1",
     "tailwindcss": "^2.2.19",
     "ts-jest": "^26.1.0",
     "ts-loader": "^7.0.5",
-    "typescript": "^3.9.5",
-    "react-error-boundary": "^3.1.4"
+    "typescript": "^3.9.5"
   },
   "peerDependencies": {
     "react": "^17.0.2"
