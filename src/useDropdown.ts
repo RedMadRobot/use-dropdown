@@ -31,7 +31,6 @@ type UseDropdownOptions<TItem> = {
   onClickOutside?: () => void;
   ResizeObserver?: typeof ResizeObserver;
   isCustomPositioning?: boolean;
-  setPositionCallBack?: () => void;
 };
 
 type GetMenuPropsResult = {
@@ -69,7 +68,6 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
     onClickOutside,
     ResizeObserver,
     isCustomPositioning = false,
-    setPositionCallBack,
   } = props;
   const inputRef = useRef<HTMLInputElement | null>(null);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
@@ -168,8 +166,6 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
   );
 
   const setPosition = useCallback(() => {
-    console.log('object');
-    setPositionCallBack && setPositionCallBack();
     if (!isCustomPositioning && menuRef.current) {
       const { top, left, transform } = getPosition();
       menuRef.current.style.top = top;
@@ -177,7 +173,7 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
       menuRef.current.style.transform = transform;
       menuRef.current.style.visibility = 'visible';
     }
-  }, [setPositionCallBack, isCustomPositioning]);
+  }, [isCustomPositioning]);
 
   const handleKeyDown = useCallback(
     (ev: KeyboardEvent) => {

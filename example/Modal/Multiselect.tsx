@@ -1,10 +1,10 @@
 import classNames from 'classnames';
-import React, { ChangeEvent, KeyboardEvent, useMemo, useState } from 'react';
+import React, { ChangeEvent, KeyboardEvent, useCallback, useMemo, useState } from 'react';
+import mergeRefs from 'react-merge-refs';
 import { usePopper } from 'react-popper';
 import { DropdownState, ReducerAction, StateChangeType, useDropdown } from '../../src';
 import { Item } from '../../stories/items';
 import '../styles.css';
-import mergeRefs from 'react-merge-refs';
 
 type Props = {
   onSelect: (items: Item[]) => void;
@@ -31,8 +31,27 @@ export const MultiSelect: React.FC<Props> = ({ onSelect, value = [], items }) =>
     }
   };
 
+  const closeModifierFn = useCallback(({ state }) => {
+    console.log('object', state);
+    console.log(state.attributes.popper['data-popper-reference-hidden']);
+    if (state.attributes.popper['data-popper-reference-hidden']) {
+      handleClose();
+      // state.orderedModifiers.find((x) => x.name === 'hide')?.fn();
+      // console.log(state.orderedModifiers.find((x) => x.name === 'hide').fn);
+    }
+  }, []);
+
   const popper = usePopper(referenceElement, popperElement, {
     placement: 'bottom-start',
+    strategy: 'fixed',
+    modifiers: [
+      {
+        name: 'close',
+        enabled: true,
+        phase: 'main',
+        fn: closeModifierFn,
+      },
+    ],
   });
   const { styles, attributes, update } = popper;
 
@@ -51,9 +70,6 @@ export const MultiSelect: React.FC<Props> = ({ onSelect, value = [], items }) =>
   const options = useMemo(() => {
     return items.filter((item) => item.name.toLowerCase().includes(inputValue.toLowerCase()));
   }, [inputValue]);
-
-
-
 
   const {
     isOpen,
@@ -105,6 +121,10 @@ export const MultiSelect: React.FC<Props> = ({ onSelect, value = [], items }) =>
 
   const handleFocus = () => {
     setFocused(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   return (
