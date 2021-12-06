@@ -4,6 +4,7 @@ import { usePopper } from 'react-popper';
 import { DropdownState, ReducerAction, StateChangeType, useDropdown } from '../../src';
 import { Item } from '../../stories/items';
 import '../styles.css';
+import mergeRefs from 'react-merge-refs';
 
 type Props = {
   onSelect: (items: Item[]) => void;
@@ -30,6 +31,11 @@ export const MultiSelect: React.FC<Props> = ({ onSelect, value = [], items }) =>
     }
   };
 
+  const popper = usePopper(referenceElement, popperElement, {
+    placement: 'bottom-start',
+  });
+  const { styles, attributes, update } = popper;
+
   const handleSelect = (item: Item) => {
     let newOptions = [];
     if (value.some((el) => el.value === item.value)) {
@@ -39,23 +45,15 @@ export const MultiSelect: React.FC<Props> = ({ onSelect, value = [], items }) =>
     }
 
     onSelect(newOptions);
+    update();
   };
 
   const options = useMemo(() => {
     return items.filter((item) => item.name.toLowerCase().includes(inputValue.toLowerCase()));
   }, [inputValue]);
 
-  const popper = usePopper(referenceElement, popperElement, {
-    placement: 'bottom-start',
-  });
 
-  const { styles, attributes, update } = popper;
-  console.log(popper);
 
-  const setPositionCallBack = () => {
-    console.log('update', update);
-    update && update();
-  };
 
   const {
     isOpen,
@@ -71,7 +69,6 @@ export const MultiSelect: React.FC<Props> = ({ onSelect, value = [], items }) =>
     onSelect: handleSelect,
     reducer,
     isCustomPositioning: true,
-    setPositionCallBack,
   });
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -117,8 +114,7 @@ export const MultiSelect: React.FC<Props> = ({ onSelect, value = [], items }) =>
       onKeyDown={handleKeyDown}
       onFocus={handleFocus}
       onBlur={handleBlur}
-      // ref={mergeRefs([getWrapperProps().ref, setReferenceElement])}
-      ref={setReferenceElement}
+      ref={mergeRefs([getWrapperProps().ref, setReferenceElement])}
     >
       <div className="input-wrapper">
         {value.length === 0
@@ -142,7 +138,7 @@ export const MultiSelect: React.FC<Props> = ({ onSelect, value = [], items }) =>
           {...getInputProps()}
           className="input"
           type="text"
-          id="search"
+          name="search"
           placeholder="Select city"
           value={inputValue}
           onChange={handleChange}
@@ -162,8 +158,7 @@ export const MultiSelect: React.FC<Props> = ({ onSelect, value = [], items }) =>
         <ul
           className="menu"
           {...(getMenuProps() as any)}
-          // ref={mergeRefs([getMenuProps().ref, setPopperElement])}
-          ref={setPopperElement}
+          ref={mergeRefs([getMenuProps().ref, setPopperElement])}
           style={styles.popper}
           {...attributes.popper}
         >

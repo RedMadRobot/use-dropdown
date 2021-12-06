@@ -1,8 +1,7 @@
-import { useState } from 'react';
-import { Meta, Story } from '@storybook/addon-docs';
-import { Modal } from '../example/Modal/Modal';
-import { MultiSelect } from '../example/MultiSelect/MultiSelect';
-import { items } from './items';
+import {useState} from 'react';
+import {Meta, Story} from '@storybook/addon-docs';
+import {Modal} from '../example/Modal/Modal';
+import {items} from './items';
 
 <Meta
   title="Examples/Modal"
@@ -15,7 +14,7 @@ import { items } from './items';
   }}
 />
 
-# Modal
+# Modal with Popper.js
 
 export const Template = (args) => {
   const [value, setValue] = useState();
