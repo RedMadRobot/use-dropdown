@@ -30,7 +30,7 @@ type UseDropdownOptions<TItem> = {
   side?: Side;
   onClickOutside?: () => void;
   ResizeObserver?: typeof ResizeObserver;
-  isCustomPositioning?: boolean;
+  positioning?: 'off' | 'absolute';
 };
 
 type GetMenuPropsResult = {
@@ -67,7 +67,7 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
     side = Side.LEFT,
     onClickOutside,
     ResizeObserver,
-    isCustomPositioning = false,
+    positioning = 'absolute',
   } = props;
   const inputRef = useRef<HTMLInputElement | null>(null);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
@@ -166,23 +166,24 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
   );
 
   const setPosition = useCallback(() => {
-    if (!isCustomPositioning && menuRef.current) {
+    if (positioning === 'absolute' && menuRef.current) {
       const { top, left, transform } = getPosition();
       menuRef.current.style.top = top;
       menuRef.current.style.left = left;
       menuRef.current.style.transform = transform;
       menuRef.current.style.visibility = 'visible';
     }
-  }, [isCustomPositioning]);
+  }, [positioning]);
 
   const handleKeyDown = useCallback(
     (ev: KeyboardEvent) => {
-      ev.preventDefault();
       switch (ev.key) {
         case 'ArrowDown':
+          ev.preventDefault();
           dispatch({ type: StateChangeType.KEY_PRESS_DOWN, items });
           break;
         case 'ArrowUp':
+          ev.preventDefault();
           dispatch({ type: StateChangeType.KEY_PRESS_UP, items });
           break;
         case 'Escape':

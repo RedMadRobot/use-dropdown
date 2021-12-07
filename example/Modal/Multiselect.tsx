@@ -81,7 +81,7 @@ export const MultiSelect: React.FC<Props> = ({ onSelect, value = [], items }) =>
     items: options,
     onSelect: handleSelect,
     reducer,
-    isCustomPositioning: true,
+    positioning: 'off',
   });
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
