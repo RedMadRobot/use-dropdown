@@ -1,0 +1,36 @@
+import {useState} from 'react';
+import {Meta, Story} from '@storybook/addon-docs';
+import {Modal} from '../example/Modal/Modal';
+import {items} from './items';
+
+<Meta
+  title="Examples/Modal"
+  component={Modal}
+  parameters={{
+    viewMode: 'docs',
+    previewTabs: {
+      canvas: { hidden: true },
+    },
+  }}
+/>
+
+# Modal with Popper.js
+
+export const Template = (args) => {
+  const [value, setValue] = useState();
+  const onSelect = (value) => {
+    setValue(value);
+  };
+  return <Modal args={args} value={value} onSelect={onSelect} />;
+};
+
+<Story
+  name="Modal"
+  args={{
+    items,
+  }}
+>
+  {Template.bind({})}
+</Story>
+
+[code](https://github.com/RedMadRobot/use-dropdown/tree/master/example/Modal/Modal.tsx)
