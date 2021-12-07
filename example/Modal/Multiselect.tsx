@@ -1,3 +1,4 @@
+import { State } from '@popperjs/core';
 import classNames from 'classnames';
 import React, { ChangeEvent, KeyboardEvent, useCallback, useMemo, useState } from 'react';
 import mergeRefs from 'react-merge-refs';
@@ -31,13 +32,9 @@ export const MultiSelect: React.FC<Props> = ({ onSelect, value = [], items }) =>
     }
   };
 
-  const closeModifierFn = useCallback(({ state }) => {
-    console.log('object', state);
-    console.log(state.attributes.popper['data-popper-reference-hidden']);
+  const closeModifierFn = useCallback(({ state }: { state: State }) => {
     if (state.attributes.popper['data-popper-reference-hidden']) {
-      handleClose();
-      // state.orderedModifiers.find((x) => x.name === 'hide')?.fn();
-      // console.log(state.orderedModifiers.find((x) => x.name === 'hide').fn);
+      setOpen(false);
     }
   }, []);
 
@@ -121,10 +118,6 @@ export const MultiSelect: React.FC<Props> = ({ onSelect, value = [], items }) =>
 
   const handleFocus = () => {
     setFocused(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
   };
 
   return (
