@@ -12,9 +12,10 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Build
+      - uses: borales/actions-yarn@v2.3.0
         run: |
-          npm i
-          npm run build-storybook
+          yarn
+          yarn build-storybook
 
       - name: Deploy to GitHub Pages
         uses: Cecilapp/GitHub-Pages-deploy@v3
