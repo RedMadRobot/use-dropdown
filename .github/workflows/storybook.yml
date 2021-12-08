@@ -13,7 +13,7 @@ jobs:
 
       - name: Build
         run: |
-          npm i yarn
+          npm i yarn --legacy-peer-deps
           yarn
           yarn run build-storybook
 
