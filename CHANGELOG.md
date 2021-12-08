@@ -1,3 +1,7 @@
+## v0.8.15 - 8 Dec 2021
+- Added new param positioning
+- Added preventDefault to arrowDown, arrowUp 
+
 ## v0.8.14 - 1 Dec 2021
 - Updated homepage
 
