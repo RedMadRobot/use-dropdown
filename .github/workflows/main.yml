@@ -13,9 +13,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: borales/actions-yarn@v2.3.0
-      - run: yarn
-      - run: yarn test
-      - run: yarn build
+        with:
+          cmd: yarn
+      - uses: borales/actions-yarn@v2.3.0
+        with:
+          cmd: yarn test
+      - uses: borales/actions-yarn@v2.3.0
+        with:
+          cmd: yarn build
       - uses: nyaayaya/package-version@v1
         with:
           path: './package.json'

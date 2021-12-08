@@ -13,9 +13,11 @@ jobs:
 
       - name: Build
       - uses: borales/actions-yarn@v2.3.0
-        run: |
-          yarn
-          yarn build-storybook
+        with:
+          cmd: yarn
+      - uses: borales/actions-yarn@v2.3.0
+        with:
+          cmd: yarn build-storybook
 
       - name: Deploy to GitHub Pages
         uses: Cecilapp/GitHub-Pages-deploy@v3
