@@ -268,7 +268,6 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
       !wrapperRef.current.contains(event.target)
     ) {
       onClickOutside && onClickOutside();
-      setOpen(false);
     }
   };
 
@@ -282,11 +281,11 @@ export const useDropdown = <TItem>(props: UseDropdownOptions<TItem>) => {
     if (isOpen) {
       setPosition();
 
-      document.addEventListener('click', handleClickOutside, true);
+      document.addEventListener('click', handleClickOutside);
     }
 
     return () => {
-      document.removeEventListener('click', handleClickOutside, true);
+      document.removeEventListener('click', handleClickOutside);
     };
   }, [isOpen]);
 

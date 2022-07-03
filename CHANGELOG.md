@@ -1,3 +1,6 @@
+## v0.8.16 - 3 Jul 2022
+- Removed bugged click outside
+
 ## v0.8.15 - 8 Dec 2021
 - Added new param positioning
 - Added preventDefault to arrowDown, arrowUp 
